@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import {assertLogLevel, LogLevel, LogLevelValue} from './LogLevel';
 import {IGetLoggerLevel, ISetLoggerLevel} from './ILoggerLevel';
-import {LogLevel, LogLevelValue} from './LogLevel';
 import {ILoggerLike} from './ILoggerLike';
 
 /**
@@ -13,9 +13,10 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 	/**
 	 * Logger constructor with logger and initial log level
 	 */
-	constructor(logger: ILoggerLike, level?: LogLevelValue) {
+	constructor(logger: ILoggerLike, level: LogLevelValue = LogLevel.Debug) {
 		this._logger = logger;
-		this._level = level || LogLevel.Debug;
+		assertLogLevel(level);
+		this._level = level;
 	}
 
 	/**
@@ -28,6 +29,7 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 	 * LogLevel.Error = 4
 	 */
 	public setLogLevel(level?: LogLevelValue) {
+		level !== undefined && assertLogLevel(level);
 		this._level = level !== undefined ? level : LogLevel.Debug;
 	}
 
@@ -42,45 +44,43 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 	 * trace level logging if current log level is trace or lower
 	 */
 	public trace(message: any, ...args: any[]): void {
-		if (this._level <= LogLevel.Trace && this._logger.trace) {
-			this._logger.trace(message, ...args);
-		}
+		this.handleLogging(LogLevel.Trace, this._logger.trace, message, ...args);
 	}
 
 	/**
 	 * debug level logging if current log level is debug or lower
 	 */
 	public debug(message: any, ...args: any[]): void {
-		if (this._level <= LogLevel.Debug) {
-			this._logger.debug(message, ...args);
-		}
+		this.handleLogging(LogLevel.Debug, this._logger.debug, message, ...args);
 	}
 
 	/**
 	 * info level logging if current log level is info or lower
 	 */
 	public info(message: any, ...args: any[]): void {
-		if (this._level <= LogLevel.Info) {
-			this._logger.info(message, ...args);
-		}
+		this.handleLogging(LogLevel.Info, this._logger.info, message, ...args);
 	}
 
 	/**
 	 * warn level logging if current log level is warn or lower
 	 */
 	public warn(message: any, ...args: any[]): void {
-		if (this._level <= LogLevel.Warn) {
-			this._logger.warn(message, ...args);
-		}
+		this.handleLogging(LogLevel.Warn, this._logger.warn, message, ...args);
 	}
 
 	/**
 	 * error level logging if current log level is error or lower
 	 */
 	public error(message: any, ...args: any[]): void {
-		/* istanbul ignore next - as error is biggest value currently */
-		if (this._level <= LogLevel.Error) {
-			this._logger.error(message, ...args);
+		this.handleLogging(LogLevel.Error, this._logger.error, message, ...args);
+	}
+
+	/**
+	 * handle logging if current log level is equal or lower than given level and method is defined
+	 */
+	private handleLogging(level: LogLevelValue, method: ((message: any, ...args: any[]) => void) | undefined, message: any, ...args: any[]): void {
+		if (this._level <= level && method) {
+			method(message, ...args);
 		}
 	}
 }

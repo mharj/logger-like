@@ -26,13 +26,32 @@ export type LogLevelKey = keyof typeof LogLevel;
  */
 export type LogLevelValue = (typeof LogLevel)[LogLevelKey];
 
+const LogLevelValues = Object.values(LogLevel);
+const LogLevelKeys = Object.keys(LogLevel) as LogLevelKey[];
+
 /**
  * get log level name from log level numeric value
  */
 export function getLogLevelName(level: LogLevelValue): LogLevelKey {
-	const key = (Object.keys(LogLevel) as LogLevelKey[]).find((k) => LogLevel[k] === level);
+	const key = LogLevelKeys.find((k) => LogLevel[k] === level);
 	if (key) {
 		return key;
 	}
-	throw new TypeError(`Invalid log level: ${level}`);
+	throw new TypeError(`Invalid log level: ${level}, expected one of [${LogLevelValues.join(', ')}]`);
+}
+
+/**
+ * check if value is a valid log level number (helper for JS compatibility)
+ */
+export function isLogLevel(value: unknown): value is LogLevelValue {
+	return typeof value === 'number' && LogLevelValues.includes(value as LogLevelValue);
+}
+
+/**
+ * assert that value is a valid log level number
+ */
+export function assertLogLevel(value: unknown): asserts value is LogLevelValue {
+	if (!isLogLevel(value)) {
+		throw new TypeError(`Invalid log level: ${value}, expected one of [${LogLevelValues.join(', ')}]`);
+	}
 }

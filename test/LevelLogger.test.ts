@@ -3,7 +3,7 @@
 import 'mocha';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import {ILoggerLike, LevelLogger, LogLevel} from '../src/';
+import {ILoggerLike, LevelLogger, LogLevel, LogLevelValue} from '../src/';
 
 const expect = chai.expect;
 
@@ -88,5 +88,8 @@ describe('LevelLogger', () => {
 		expect(warnSpy.called).to.be.false;
 		expect(errorSpy.called).to.be.true;
 		expect(logger.getLogLevel()).to.be.equal(LogLevel.Error);
+	});
+	it('should fail to add wrong initial level to logger', async () => {
+		expect(() => new LevelLogger(spyLogger, -1 as LogLevelValue)).to.throw(TypeError, 'Invalid log level: -1, expected one of [0, 1, 2, 3, 4]');
 	});
 });
