@@ -53,6 +53,15 @@ const LogLevel = {
 type LogLevelValue = 0 | 1 | 2 | 3 | 4;
 ```
 
+### getLogLevelName Function
+
+The **getLogLevelName** function returns the log level name for the given log level value. The function includes the following method:
+
+```typescript
+function getLogLevelName(level: LogLevelValue): LogLevelKey;
+// type LogLevelKey = "Trace" | "Debug" | "Info" | "Warn" | "Error"
+```
+
 ### IGetLoggerLevel Interface
 
 The **IGetLoggerLevel** interface provides a method to get the current log level. The interface includes the following method:
@@ -115,6 +124,7 @@ logger.error('This is an error message');
 // set new log level to warn
 logger.setLogLevel(LogLevel.Warn);
 logger.getLogLevel(); // returns 3 = LogLevel.Warn
+getLogLevelName(logger.getLogLevel()); // returns 'Warn'
 ```
 
 or if just need ILoggerLike interface:
