@@ -1,7 +1,10 @@
-name: Publish Package to npmjs
+name: Validate and publish package to npmjs
 on:
   push:
-    branches: main
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,5 +18,6 @@ jobs:
       - run: npm test
       - run: npm run lint
       - run: npm publish --access public
+        if: github.ref == 'refs/heads/main'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
