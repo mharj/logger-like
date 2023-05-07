@@ -8,8 +8,9 @@
 This package contains:
 
 - A common [**ILoggerLike**](#interface-iloggerlike) logger interface that works with console, winston, and log4js.
-- A [**LogLevel**](#const-loglevel-enum) const "enum.", [**getLogLevelName**](#function-getloglevelname) function, [**isLogLevel**](#function-isloglevel) function and [**assertLogLevel**](#function-assertloglevel) function.
 - A [**LevelLogger**](#class-levellogger) logger class implementation that can set log levels and acts as filter for the actual logger implementation.
+- A [**MapLogger**](#class-maplogger), logger class implementation that can be used to map log levels to different log keys. (works also as extended)
+- A [**LogLevel**](#const-loglevel-enum) const "enum.", [**getLogLevelName**](#function-getloglevelname) function, [**isLogLevel**](#function-isloglevel) function and [**assertLogLevel**](#function-assertloglevel) function.
 - A [**IGetLoggerLevel**](#interface-igetloggerlevel) and [**ISetLoggerLevel**](#interface-isetloggerlevel) interfaces that provides a method to get and set the log level.
 
 See [**Examples**](#examples) for more details.
@@ -123,6 +124,23 @@ new LevelLogger(logger: ILoggerLike, level: LogLevelValue = LogLevel.Debug);
 
 - logger - the actual logger implementation to use (must implement ILoggerLike interface).
 - level - the initial log level (optional), defaults to LogLevel.Debug.
+
+### Class: **MapLogger**
+
+This is a logger implementation that can be used to map log levels to different keys. (works also as extended)<br/>
+See [**DemoMapLogger**](./test/mockup/DemoMapLogger.ts) as example inside of class implementation.<br/>
+
+```typescript
+const defaultLogMap = {
+	test: LogLevel.Info,
+	input: LogLevel.Debug,
+};
+export type LogMappingType = LogMapping<keyof typeof defaultLogMap>; // build type
+
+const logger = new MapLogger(console, defaultLogMap);
+logger.logKey('test', 'goes to info');
+logger.logKey('input', 'goes to debug');
+```
 
 ## Examples
 
