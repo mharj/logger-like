@@ -106,6 +106,15 @@ describe('LevelLogger', () => {
 		expect(warnSpy.called).to.be.false;
 		expect(errorSpy.called).to.be.false;
 	});
+	it('should not log if logger is undefined', async () => {
+		service.setLogger(undefined);
+		service.input();
+		expect(traceSpy.called).to.be.false;
+		expect(debugSpy.called).to.be.false;
+		expect(infoSpy.called).to.be.false;
+		expect(warnSpy.called).to.be.false;
+		expect(errorSpy.called).to.be.false;
+	});
 	it('test empty logging', async () => {
 		service = new DemoService();
 		service.input();

@@ -1,4 +1,4 @@
-import {ILoggerLike, LogLevel, LogMapping, MapLogger} from '../../src';
+import {ILoggerLike, ISetOptionalLogger, LogLevel, LogMapping, MapLogger} from '../../src';
 
 const defaultLogMap = {
 	test: LogLevel.Info,
@@ -8,10 +8,14 @@ const defaultLogMap = {
 // build type for DemoService log key mapping
 export type DemoServiceLogMappingType = LogMapping<keyof typeof defaultLogMap>;
 
-export class DemoService {
+export class DemoService implements ISetOptionalLogger {
 	private logger: MapLogger<DemoServiceLogMappingType>;
 	constructor(logger?: ILoggerLike, logMapping?: Partial<DemoServiceLogMappingType>) {
 		this.logger = new MapLogger(logger, Object.assign({}, defaultLogMap, logMapping));
+	}
+
+	public setLogger(logger: ILoggerLike | undefined): void {
+		this.logger.setLogger(logger);
 	}
 
 	public setLogMapping(logMapping: Partial<DemoServiceLogMappingType>) {

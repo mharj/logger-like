@@ -1,14 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {assertLogLevel, LogLevel, LogLevelValue} from './LogLevel';
 import {ILoggerLike} from './ILoggerLike';
+import {ISetOptionalLogger} from './ISetLogger';
 
 export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValue>;
 /**
  * MapLogger is a logger that uses a map to determine the log level for each key.
  *
  * This can be extends to create a mapped logger for class or have a variable.
+ * See [DemoMapLogger](../test/mockup/DemoMapLogger.ts) for class example.
+ *
+ * @example
+ * const defaultLogMap = {
+ *   test: LogLevel.Info,
+ *   input: LogLevel.Debug,
+ * };
+ * export type LogMappingType = LogMapping<keyof typeof defaultLogMap>; // build type
+ *
+ * const logger = new MapLogger(console, defaultLogMap);
+ * logger.logKey('test', 'goes to info');
+ * logger.logKey('input', 'goes to debug');
  */
-export class MapLogger<LogMapType extends LogMapping> {
+export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLogger {
 	private _logger: ILoggerLike | undefined;
 	private _map: LogMapType;
 	private _defaultMap: LogMapType;
