@@ -40,56 +40,65 @@ describe('LevelLogger', () => {
 		debugSpy.resetHistory();
 	});
 	it('should be trace level', async () => {
-		logger.setLogLevel(LogLevel.Trace);
+		logger.setLoggerLevel(LogLevel.Trace);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.true;
 		expect(debugSpy.called).to.be.true;
 		expect(infoSpy.called).to.be.true;
 		expect(warnSpy.called).to.be.true;
 		expect(errorSpy.called).to.be.true;
-		expect(logger.getLogLevel()).to.be.equal(LogLevel.Trace);
+		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Trace);
 	});
 	it('should be default = debug', async () => {
-		logger.setLogLevel();
+		logger.setLoggerLevel();
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
 		expect(debugSpy.called).to.be.true;
 		expect(infoSpy.called).to.be.true;
 		expect(warnSpy.called).to.be.true;
 		expect(errorSpy.called).to.be.true;
-		expect(logger.getLogLevel()).to.be.equal(LogLevel.Debug);
+		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Debug);
 	});
 	it('should be info level', async () => {
-		logger.setLogLevel(LogLevel.Info);
+		logger.setLoggerLevel(LogLevel.Info);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
 		expect(debugSpy.called).to.be.false;
 		expect(infoSpy.called).to.be.true;
 		expect(warnSpy.called).to.be.true;
 		expect(errorSpy.called).to.be.true;
-		expect(logger.getLogLevel()).to.be.equal(LogLevel.Info);
+		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Info);
 	});
 	it('should be warn level', async () => {
-		logger.setLogLevel(LogLevel.Warn);
+		logger.setLoggerLevel(LogLevel.Warn);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
 		expect(debugSpy.called).to.be.false;
 		expect(infoSpy.called).to.be.false;
 		expect(warnSpy.called).to.be.true;
 		expect(errorSpy.called).to.be.true;
-		expect(logger.getLogLevel()).to.be.equal(LogLevel.Warn);
+		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Warn);
 	});
 	it('should be error level', async () => {
-		logger.setLogLevel(LogLevel.Error);
+		logger.setLoggerLevel(LogLevel.Error);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
 		expect(debugSpy.called).to.be.false;
 		expect(infoSpy.called).to.be.false;
 		expect(warnSpy.called).to.be.false;
 		expect(errorSpy.called).to.be.true;
-		expect(logger.getLogLevel()).to.be.equal(LogLevel.Error);
+		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Error);
 	});
 	it('should fail to add wrong initial level to logger', async () => {
 		expect(() => new LevelLogger(spyLogger, -1 as LogLevelValue)).to.throw(TypeError, 'Invalid log level: -1, expected one of [0, 1, 2, 3, 4]');
+	});
+	it('should not log with empty logger', async () => {
+		logger.setLogger(undefined);
+		setToAll('demo');
+		expect(traceSpy.called).to.be.false;
+		expect(debugSpy.called).to.be.false;
+		expect(infoSpy.called).to.be.false;
+		expect(warnSpy.called).to.be.false;
+		expect(errorSpy.called).to.be.false;
 	});
 });

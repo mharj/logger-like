@@ -7,9 +7,10 @@
 
 This package contains:
 
-- A common [**ILoggerLike**](#interface-iloggerlike) logger interface that works with console, winston, and log4js.
+- A common [**ILoggerLike**](./src/ILoggerLike.ts) logger interface that works with console, winston, and log4js.
 - A [**LevelLogger**](#class-levellogger) logger class implementation that can set log levels and acts as filter for the actual logger implementation.
-- A [**MapLogger**](#class-maplogger), logger class implementation that can be used to map log levels to different log keys. (works also as extended)
+- A [**ISetLogger** **ISetOptionalLogger**](./src/ISetLogger.ts) interfaces that provides a method to set the logger.
+- A [**MapLogger**](./src/MapLogger.ts), logger class implementation that can be used to map log levels to different log keys. (works also as extended)
 - A [**LogLevel**](#const-loglevel-enum) const "enum.", [**getLogLevelName**](#function-getloglevelname) function, [**isLogLevel**](#function-isloglevel) function and [**assertLogLevel**](#function-assertloglevel) function.
 - A [**IGetLoggerLevel**](#interface-igetloggerlevel) and [**ISetLoggerLevel**](#interface-isetloggerlevel) interfaces that provides a method to get and set the log level.
 
@@ -27,20 +28,6 @@ npm install @avanio/logger-like
 
 ```typescript
 import {ILoggerLike, LevelLogger, LogLevel} from '@avanio/logger-like';
-```
-
-### Interface: **ILoggerLike**
-
-The **ILoggerLike** interface defines a common logging interface that should work with console, winston, and log4js. The interface includes the following methods:
-
-```typescript
-interface ILoggerLike {
-	trace?(message: any, ...args: any[]): void;
-	debug(message: any, ...args: any[]): void;
-	info(message: any, ...args: any[]): void;
-	warn(message: any, ...args: any[]): void;
-	error(message: any, ...args: any[]): void;
-}
 ```
 
 ### Const: **LogLevel** "Enum"
@@ -124,23 +111,6 @@ new LevelLogger(logger: ILoggerLike, level: LogLevelValue = LogLevel.Debug);
 
 - logger - the actual logger implementation to use (must implement ILoggerLike interface).
 - level - the initial log level (optional), defaults to LogLevel.Debug.
-
-### Class: **MapLogger**
-
-This is a logger implementation that can be used to map log levels to different keys. (works also as extended)<br/>
-See [**DemoMapLogger**](./test/mockup/DemoMapLogger.ts) as example inside of class implementation.<br/>
-
-```typescript
-const defaultLogMap = {
-	test: LogLevel.Info,
-	input: LogLevel.Debug,
-};
-export type LogMappingType = LogMapping<keyof typeof defaultLogMap>; // build type
-
-const logger = new MapLogger(console, defaultLogMap);
-logger.logKey('test', 'goes to info');
-logger.logKey('input', 'goes to debug');
-```
 
 ## Examples
 

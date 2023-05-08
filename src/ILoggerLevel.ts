@@ -4,12 +4,12 @@ import {LogLevelValue} from './LogLevel';
  * Set log level interface
  */
 export interface ISetLoggerLevel {
-	setLogLevel(level?: LogLevelValue): void;
+	setLoggerLevel(level?: LogLevelValue): void;
 }
 
 /**
  * get log level interface
  */
 export interface IGetLoggerLevel {
-	getLogLevel(): LogLevelValue;
+	getLoggerLevel(): LogLevelValue;
 }
