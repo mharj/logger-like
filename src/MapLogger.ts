@@ -22,6 +22,10 @@ export class MapLogger<LogMapType extends LogMapping> {
 		this._map = Object.assign({}, this._defaultMap);
 	}
 
+	public setLogger(logger: ILoggerLike | undefined): void {
+		this._logger = logger;
+	}
+
 	/**
 	 * Set new log key mapping
 	 */
