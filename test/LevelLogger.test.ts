@@ -90,7 +90,7 @@ describe('LevelLogger', () => {
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Error);
 	});
 	it('should fail to add wrong initial level to logger', async () => {
-		expect(() => new LevelLogger(spyLogger, -1 as LogLevelValue)).to.throw(TypeError, 'Invalid log level: -1, expected one of [0, 1, 2, 3, 4]');
+		expect(() => new LevelLogger(spyLogger, -1 as LogLevelValue)).to.throw(TypeError, 'Invalid log level: -1, expected one of [0, 1, 2, 3, 4, 5]');
 	});
 	it('should not log with empty logger', async () => {
 		logger.setLogger(undefined);

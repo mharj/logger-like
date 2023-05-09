@@ -36,14 +36,15 @@ The LogLevel const enum defines the following log levels and type:
 
 ```typescript
 const LogLevel = {
-	Trace: 0,
-	Debug: 1,
-	Info: 2,
-	Warn: 3,
-	Error: 4,
+	None: 0,
+	Trace: 1,
+	Debug: 2,
+	Info: 3,
+	Warn: 4,
+	Error: 5,
 } as const;
 
-type LogLevelValue = 0 | 1 | 2 | 3 | 4;
+type LogLevelValue = 0 | 1 | 2 | 3 | 4 | 5;
 ```
 
 ### Function: **getLogLevelName**

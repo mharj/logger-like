@@ -29,8 +29,8 @@ describe('LogLevel', () => {
 			expect(() => assertLogLevel(LogLevel.Error)).to.not.throw();
 		});
 		it('should throw error for invalid log level', async () => {
-			expect(() => assertLogLevel(-1 as LogLevelValue)).to.throw(TypeError, 'Invalid log level: -1, expected one of [0, 1, 2, 3, 4]');
-			expect(() => assertLogLevel('Debug' as unknown as LogLevelValue)).to.throw(TypeError, 'Invalid log level: Debug, expected one of [0, 1, 2, 3, 4]');
+			expect(() => assertLogLevel(-1 as LogLevelValue)).to.throw(TypeError, 'Invalid log level: -1, expected one of [0, 1, 2, 3, 4, 5]');
+			expect(() => assertLogLevel('Debug' as unknown as LogLevelValue)).to.throw(TypeError, 'Invalid log level: Debug, expected one of [0, 1, 2, 3, 4, 5]');
 		});
 	});
 });

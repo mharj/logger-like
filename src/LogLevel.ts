@@ -5,11 +5,12 @@
  * log level const "enum"
  */
 export const LogLevel = {
-	Trace: 0,
-	Debug: 1,
-	Info: 2,
-	Warn: 3,
-	Error: 4,
+	None: 0,
+	Trace: 1,
+	Debug: 2,
+	Info: 3,
+	Warn: 4,
+	Error: 5,
 } as const;
 
 export type LogLevelKey = keyof typeof LogLevel;
@@ -18,11 +19,12 @@ export type LogLevelKey = keyof typeof LogLevel;
  * log level value type
  *
  * @example
- * LogLevel.Trace = 0
- * LogLevel.Debug = 1
- * LogLevel.Info = 2
- * LogLevel.Warn = 3
- * LogLevel.Error = 4
+ * LogLevel.None = 0
+ * LogLevel.Trace = 1
+ * LogLevel.Debug = 2
+ * LogLevel.Info = 3
+ * LogLevel.Warn = 4
+ * LogLevel.Error = 5
  */
 export type LogLevelValue = (typeof LogLevel)[LogLevelKey];
 

@@ -99,7 +99,7 @@ describe('LevelLogger', () => {
 	});
 	it('should throw if key is not valid', async () => {
 		service.setLogMapping({input: 'not-valid'} as any);
-		expect(() => service.input()).to.throw(Error, 'Invalid log level: not-valid, expected one of [0, 1, 2, 3, 4]');
+		expect(() => service.input()).to.throw(Error, 'Invalid log level: not-valid, expected one of [0, 1, 2, 3, 4, 5]');
 		expect(traceSpy.called).to.be.false;
 		expect(debugSpy.called).to.be.false;
 		expect(infoSpy.called).to.be.false;
