@@ -78,9 +78,9 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 	 * ILoggerLike trace?.(message: any, ...args: any[])
 	 */
 	public trace(message: any, ...args: any[]): void {
-		this._logger?.trace?.(message.args);
+		this._logger?.trace?.(message, args);
 	}
-	
+
 	/**
 	 * Log message with level based on log key mapping
 	 */
