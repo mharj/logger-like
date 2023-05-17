@@ -21,7 +21,7 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  * logger.logKey('test', 'goes to info');
  * logger.logKey('input', 'goes to debug');
  */
-export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLogger {
+export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLogger, ILoggerLike {
 	private _logger: ILoggerLike | undefined;
 	private _map: LogMapType;
 	private _defaultMap: LogMapType;
@@ -46,6 +46,41 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 		this._map = Object.assign({}, this._defaultMap, map);
 	}
 
+	/**
+	 * ILoggerLike debug(message: any, ...args: any[])
+	 */
+	public debug(message: any, ...args: any[]): void {
+		this._logger?.debug(message, args);
+	}
+
+	/**
+	 * ILoggerLike info(message: any, ...args: any[])
+	 */
+	public info(message: any, ...args: any[]): void {
+		this._logger?.info(message, args);
+	}
+
+	/**
+	 * ILoggerLike warn(message: any, ...args: any[])
+	 */
+	public warn(message: any, ...args: any[]): void {
+		this._logger?.warn(message, args);
+	}
+
+	/**
+	 * ILoggerLike error(message: any, ...args: any[])
+	 */
+	public error(message: any, ...args: any[]): void {
+		this._logger?.error(message, args);
+	}
+
+	/**
+	 * ILoggerLike trace?.(message: any, ...args: any[])
+	 */
+	public trace(message: any, ...args: any[]): void {
+		this._logger?.trace?.(message.args);
+	}
+	
 	/**
 	 * Log message with level based on log key mapping
 	 */
