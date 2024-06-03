@@ -3,7 +3,7 @@
 import 'mocha';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import {ILoggerLike, LevelLogger, LogLevel, LogLevelValue} from '../src/';
+import {type ILoggerLike, LevelLogger, LogLevel, type LogLevelValue} from '../src/';
 
 const expect = chai.expect;
 
@@ -48,6 +48,7 @@ describe('LevelLogger', () => {
 		expect(warnSpy.called).to.be.true;
 		expect(errorSpy.called).to.be.true;
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Trace);
+		expect(debugSpy.firstCall.args.length).to.be.equal(1);
 	});
 	it('should be default = debug', async () => {
 		logger.setLoggerLevel();

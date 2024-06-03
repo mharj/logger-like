@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {assertLogLevel, LogLevel, LogLevelValue} from './LogLevel';
-import {IGetLoggerLevel, ISetLoggerLevel} from './ILoggerLevel';
-import {ILoggerLike} from './ILoggerLike';
-import {ISetOptionalLogger} from './ISetLogger';
+import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel';
+import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel';
+import {type ILoggerLike} from './ILoggerLike';
+import {type ISetOptionalLogger} from './ISetLogger';
 
 /**
  * logger class implementation which can set log levels
@@ -85,7 +85,11 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 	 */
 	private handleLogging(level: LogLevelValue, method: ((message: any, ...args: any[]) => void) | undefined, message: any, ...args: any[]): void {
 		if (this._level <= level && method) {
-			method(message, ...args);
+			if (args.length === 0) {
+				method(message);
+			} else {
+				method(message, ...args);
+			}
 		}
 	}
 }

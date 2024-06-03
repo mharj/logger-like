@@ -1,4 +1,4 @@
-import {ILoggerLike, ISetOptionalLogger, LogLevel, LogMapping, MapLogger} from '../../src';
+import {type ILoggerLike, type ISetOptionalLogger, LogLevel, type LogMapping, MapLogger} from '../../src';
 
 const defaultLogMap = {
 	test: LogLevel.Info,

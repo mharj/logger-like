@@ -5,8 +5,8 @@
 import 'mocha';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import {DemoService, DemoServiceLogMappingType} from './mockup/DemoMapLogger';
-import {ILoggerLike, LogLevel} from '../src/';
+import {DemoService, type DemoServiceLogMappingType} from './mockup/DemoMapLogger';
+import {type ILoggerLike, LogLevel} from '../src/';
 
 const expect = chai.expect;
 

@@ -1,4 +1,4 @@
-import {ILoggerLike} from './ILoggerLike';
+import type {ILoggerLike} from './ILoggerLike';
 
 export interface ISetLogger {
 	setLogger(logger: ILoggerLike): void;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {assertLogLevel, LogLevel, LogLevelValue} from './LogLevel';
-import {ILoggerLike} from './ILoggerLike';
-import {ISetOptionalLogger} from './ISetLogger';
+import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel';
+import {type ILoggerLike} from './ILoggerLike';
+import {type ISetOptionalLogger} from './ISetLogger';
 
 export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValue>;
 /**
@@ -95,20 +95,30 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 		assertLogLevel(level);
 		switch (level) {
 			case LogLevel.Trace:
-				this._logger.trace?.(message, ...args);
+				this.handleLogging(this._logger.trace, message, ...args);
 				break;
 			case LogLevel.Debug:
-				this._logger.debug(message, ...args);
+				this.handleLogging(this._logger.debug, message, ...args);
 				break;
 			case LogLevel.Info:
-				this._logger.info(message, ...args);
+				this.handleLogging(this._logger.info, message, ...args);
 				break;
 			case LogLevel.Warn:
-				this._logger.warn(message, ...args);
+				this.handleLogging(this._logger.warn, message, ...args);
 				break;
 			case LogLevel.Error:
-				this._logger.error(message, ...args);
+				this.handleLogging(this._logger.error, message, ...args);
 				break;
+		}
+	}
+
+	private handleLogging(method: ((message: any, ...args: any[]) => void) | undefined, message: any, ...args: any[]): void {
+		if (method) {
+			if (args.length === 0) {
+				method(message);
+			} else {
+				method(message, ...args);
+			}
 		}
 	}
 }

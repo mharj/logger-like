@@ -1,4 +1,4 @@
-import {LogLevelValue} from './LogLevel';
+import type {LogLevelValue} from './LogLevel';
 
 /**
  * Set log level interface
