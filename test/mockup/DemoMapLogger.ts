@@ -1,4 +1,4 @@
-import {type ILoggerLike, type ISetOptionalLogger, LogLevel, type LogMapping, MapLogger} from '../../src';
+import {type ILoggerLike, type ISetOptionalLogger, LogLevel, type LogLevelValue, type LogMapping, MapLogger} from '../../src';
 
 const defaultLogMap = {
 	test: LogLevel.Info,
@@ -20,6 +20,16 @@ export class DemoService implements ISetOptionalLogger {
 
 	public setLogMapping(logMapping: Partial<DemoServiceLogMappingType>) {
 		this.logger.setLogMapping(logMapping);
+	}
+
+	public allLogMapSet(level: LogLevelValue) {
+		this.logger.trace('allLogMapSet', level, 'demo');
+		this.logger.allLogMapSet(level);
+	}
+
+	public allLogMapReset() {
+		this.logger.trace('allLogMapReset');
+		this.logger.allLogMapReset();
 	}
 
 	public test() {

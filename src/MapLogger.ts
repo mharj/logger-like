@@ -26,6 +26,8 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 	private _map: LogMapType;
 	private _defaultMap: LogMapType;
 
+	private _backupMap: LogMapType | undefined;
+
 	/**
 	 * Logger constructor with optional logger instance and log key mapping
 	 */
@@ -47,38 +49,61 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 	}
 
 	/**
+	 * Set temporary log key mapping to all keys.
+	 */
+	public allLogMapSet(level: LogLevelValue) {
+		if (this._backupMap) {
+			throw new Error('allLogMapSet: backupMap is already set, call allLogMapReset first');
+		}
+		this._backupMap = Object.assign({}, this._map);
+		for (const key in this._map) {
+			this._map[key] = level as LogMapType[Extract<keyof LogMapType, string>];
+		}
+	}
+
+	/**
+	 * Reset temporary log key mapping to original.
+	 */
+	public allLogMapReset() {
+		if (this._backupMap) {
+			this._map = Object.assign({}, this._backupMap);
+			this._backupMap = undefined;
+		}
+	}
+
+	/**
 	 * ILoggerLike debug(message: any, ...args: any[])
 	 */
 	public debug(message: any, ...args: any[]): void {
-		this._logger?.debug(message, args);
+		this.handleLogging(this._logger?.debug, message, ...args);
 	}
 
 	/**
 	 * ILoggerLike info(message: any, ...args: any[])
 	 */
 	public info(message: any, ...args: any[]): void {
-		this._logger?.info(message, args);
+		this.handleLogging(this._logger?.info, message, ...args);
 	}
 
 	/**
 	 * ILoggerLike warn(message: any, ...args: any[])
 	 */
 	public warn(message: any, ...args: any[]): void {
-		this._logger?.warn(message, args);
+		this.handleLogging(this._logger?.warn, message, ...args);
 	}
 
 	/**
 	 * ILoggerLike error(message: any, ...args: any[])
 	 */
 	public error(message: any, ...args: any[]): void {
-		this._logger?.error(message, args);
+		this.handleLogging(this._logger?.error, message, ...args);
 	}
 
 	/**
 	 * ILoggerLike trace?.(message: any, ...args: any[])
 	 */
 	public trace(message: any, ...args: any[]): void {
-		this._logger?.trace?.(message, args);
+		this.handleLogging(this._logger?.trace, message, ...args);
 	}
 
 	/**

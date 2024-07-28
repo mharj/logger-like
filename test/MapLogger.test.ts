@@ -88,6 +88,19 @@ describe('LevelLogger', () => {
 		expect(errorSpy.called).to.be.true;
 		expect(errorSpy.calledWith('DemoService input() method')).to.be.true;
 	});
+	it('should map input() to error level', async () => {
+		service.setLogMapping({input: LogLevel.None});
+		service.allLogMapSet(LogLevel.Error);
+		expect(() => service.allLogMapSet(LogLevel.Error)).to.throw(Error, 'allLogMapSet: backupMap is already set, call allLogMapReset first');
+		service.input();
+		service.allLogMapReset();
+		expect(traceSpy.called).to.be.true;
+		expect(debugSpy.called).to.be.false;
+		expect(infoSpy.called).to.be.false;
+		expect(warnSpy.called).to.be.false;
+		expect(errorSpy.called).to.be.true;
+		expect(errorSpy.calledWith('DemoService input() method')).to.be.true;
+	});
 	it('should throw if key does not exists or undefined', async () => {
 		service.setLogMapping({input: undefined} as any);
 		expect(() => service.input()).to.throw(Error, 'MapLogger: Unknown log key: input');
