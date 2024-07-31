@@ -36,7 +36,19 @@ export class DemoService implements ISetOptionalLogger {
 		this.logger.logKey('test', 'DemoService test() method');
 	}
 
+	public test2() {
+		this.logger.logKey('test', 'DemoService test() method', 'test2');
+	}
+
 	public input() {
 		this.logger.logKey('input', 'DemoService input() method');
+	}
+
+	public testDefaultMethods() {
+		this.logger.trace('testAll', 'demo');
+		this.logger.debug('testAll', 'demo');
+		this.logger.info('testAll', 'demo');
+		this.logger.warn('testAll', 'demo');
+		this.logger.error('testAll', 'demo');
 	}
 }

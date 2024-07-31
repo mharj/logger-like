@@ -1,4 +1,5 @@
-/* eslint-disable sort-keys */
+/* eslint-disable @typescript-eslint/no-confusing-void-expression */
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable no-unused-expressions */
 import 'mocha';
 import * as chai from 'chai';
@@ -14,43 +15,43 @@ const errorSpy = sinon.spy();
 const debugSpy = sinon.spy();
 
 const spyLogger: ILoggerLike = {
-	trace: traceSpy,
-	info: infoSpy,
-	warn: warnSpy,
-	error: errorSpy,
 	debug: debugSpy,
+	error: errorSpy,
+	info: infoSpy,
+	trace: traceSpy,
+	warn: warnSpy,
 };
 
 const logger = new LevelLogger(spyLogger);
 
-function setToAll(message: string) {
-	logger.trace(message);
-	logger.info(message);
-	logger.debug(message);
-	logger.warn(message);
-	logger.error(message);
+function setToAll(message: string, ...args: any[]) {
+	logger.trace(message, ...args);
+	logger.info(message, ...args);
+	logger.debug(message, ...args);
+	logger.warn(message, ...args);
+	logger.error(message, ...args);
 }
 
-describe('LevelLogger', () => {
-	beforeEach(() => {
+describe('LevelLogger', function () {
+	beforeEach(function () {
 		traceSpy.resetHistory();
 		infoSpy.resetHistory();
 		warnSpy.resetHistory();
 		errorSpy.resetHistory();
 		debugSpy.resetHistory();
 	});
-	it('should be trace level', async () => {
+	it('should be trace level', function () {
 		logger.setLoggerLevel(LogLevel.Trace);
-		setToAll('demo');
+		setToAll('demo', 'test');
 		expect(traceSpy.called).to.be.true;
 		expect(debugSpy.called).to.be.true;
 		expect(infoSpy.called).to.be.true;
 		expect(warnSpy.called).to.be.true;
 		expect(errorSpy.called).to.be.true;
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Trace);
-		expect(debugSpy.firstCall.args.length).to.be.equal(1);
+		expect(debugSpy.firstCall.args.length).to.be.equal(2);
 	});
-	it('should be default = debug', async () => {
+	it('should be default = debug', function () {
 		logger.setLoggerLevel();
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
@@ -60,7 +61,7 @@ describe('LevelLogger', () => {
 		expect(errorSpy.called).to.be.true;
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Debug);
 	});
-	it('should be info level', async () => {
+	it('should be info level', function () {
 		logger.setLoggerLevel(LogLevel.Info);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
@@ -70,7 +71,7 @@ describe('LevelLogger', () => {
 		expect(errorSpy.called).to.be.true;
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Info);
 	});
-	it('should be warn level', async () => {
+	it('should be warn level', function () {
 		logger.setLoggerLevel(LogLevel.Warn);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
@@ -80,7 +81,7 @@ describe('LevelLogger', () => {
 		expect(errorSpy.called).to.be.true;
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Warn);
 	});
-	it('should be error level', async () => {
+	it('should be error level', function () {
 		logger.setLoggerLevel(LogLevel.Error);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;
@@ -90,10 +91,10 @@ describe('LevelLogger', () => {
 		expect(errorSpy.called).to.be.true;
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Error);
 	});
-	it('should fail to add wrong initial level to logger', async () => {
+	it('should fail to add wrong initial level to logger', function () {
 		expect(() => new LevelLogger(spyLogger, -1 as LogLevelValue)).to.throw(TypeError, 'Invalid log level: -1, expected one of [0, 1, 2, 3, 4, 5]');
 	});
-	it('should not log with empty logger', async () => {
+	it('should not log with empty logger', function () {
 		logger.setLogger(undefined);
 		setToAll('demo');
 		expect(traceSpy.called).to.be.false;

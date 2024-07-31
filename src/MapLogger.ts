@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel';
 import {type ILoggerLike} from './ILoggerLike';
 import {type ISetOptionalLogger} from './ISetLogger';
@@ -114,6 +113,7 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 			return;
 		}
 		const level = this._map[key];
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (level === undefined) {
 			throw new Error(`MapLogger: Unknown log key: ${String(key)}`);
 		}

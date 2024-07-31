@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel';
 import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel';
 import {type ILoggerLike} from './ILoggerLike';

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable sort-keys */
-
 /**
  * log level const "enum"
  */
@@ -28,8 +25,8 @@ export type LogLevelKey = keyof typeof LogLevel;
  */
 export type LogLevelValue = (typeof LogLevel)[LogLevelKey];
 
-const LogLevelValues = Object.values(LogLevel);
-const LogLevelKeys = Object.keys(LogLevel) as LogLevelKey[];
+const LogLevelValues = Object.values(LogLevel) as readonly LogLevelValue[];
+const LogLevelKeys = Object.keys(LogLevel) as readonly LogLevelKey[];
 
 /**
  * get log level name from log level numeric value
@@ -39,7 +36,7 @@ export function getLogLevelName(level: LogLevelValue): LogLevelKey {
 	if (key) {
 		return key;
 	}
-	throw new TypeError(`Invalid log level: ${level}, expected one of [${LogLevelValues.join(', ')}]`);
+	throw new TypeError(`Invalid log level: ${String(level)}, expected one of [${LogLevelValues.join(', ')}]`);
 }
 
 /**
@@ -54,6 +51,6 @@ export function isLogLevel(value: unknown): value is LogLevelValue {
  */
 export function assertLogLevel(value: unknown): asserts value is LogLevelValue {
 	if (!isLogLevel(value)) {
-		throw new TypeError(`Invalid log level: ${value}, expected one of [${LogLevelValues.join(', ')}]`);
+		throw new TypeError(`Invalid log level: ${String(value)}, expected one of [${LogLevelValues.join(', ')}]`);
 	}
 }
