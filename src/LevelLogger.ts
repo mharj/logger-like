@@ -5,6 +5,7 @@ import {type ISetOptionalLogger} from './ISetLogger';
 
 /**
  * logger class implementation which can set log levels
+ * @version 0.1.0
  */
 export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLevel, ISetOptionalLogger {
 	private _logger: ILoggerLike | undefined;

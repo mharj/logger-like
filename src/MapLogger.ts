@@ -8,7 +8,7 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  *
  * This can be extends to create a mapped logger for class or have a variable.
  * See [DemoMapLogger](../test/mockup/DemoMapLogger.ts) for class example.
- *
+ * @version 0.1.0
  * @example
  * const defaultLogMap = {
  *   test: LogLevel.Info,
