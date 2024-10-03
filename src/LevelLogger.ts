@@ -1,7 +1,7 @@
-import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel';
-import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel';
-import {type ILoggerLike} from './ILoggerLike';
-import {type ISetOptionalLogger} from './ISetLogger';
+import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.js';
+import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel.js';
+import {type ILoggerLike} from './ILoggerLike.js';
+import {type ISetOptionalLogger} from './ISetLogger.js';
 
 /**
  * logger class implementation which can set log levels
@@ -34,7 +34,9 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 	 * LogLevel.Error = 4
 	 */
 	public setLoggerLevel(level?: LogLevelValue) {
-		level !== undefined && assertLogLevel(level);
+		if (level) {
+			assertLogLevel(level);
+		}
 		this._level = level !== undefined ? level : LogLevel.Debug;
 	}
 

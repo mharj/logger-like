@@ -1,6 +1,6 @@
-import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel';
-import {type ILoggerLike} from './ILoggerLike';
-import {type ISetOptionalLogger} from './ISetLogger';
+import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.js';
+import {type ILoggerLike} from './ILoggerLike.js';
+import {type ISetOptionalLogger} from './ISetLogger.js';
 
 export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValue>;
 /**

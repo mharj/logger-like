@@ -1,4 +1,4 @@
-import type {ILoggerLike} from './ILoggerLike';
+import type {ILoggerLike} from './ILoggerLike.js';
 
 /**
  * Set logger interface
