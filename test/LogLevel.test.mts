@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-expressions */
 import 'mocha';
 import * as chai from 'chai';
-import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from '../src/index.js';
+import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from '../src/index.mjs';
 
 const expect = chai.expect;
 

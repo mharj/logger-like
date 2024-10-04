@@ -1,6 +1,6 @@
-import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.js';
-import {type ILoggerLike} from './ILoggerLike.js';
-import {type ISetOptionalLogger} from './ISetLogger.js';
+import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.mjs';
+import {type ILoggerLike} from './ILoggerLike.mjs';
+import {type ISetOptionalLogger} from './ISetLogger.mjs';
 
 export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValue>;
 /**
@@ -8,7 +8,7 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  *
  * This can be extends to create a mapped logger for class or have a variable.
  * See [DemoMapLogger](../test/mockup/DemoMapLogger.ts) for class example.
- * @version 0.1.0
+ * @since v0.1.0
  * @example
  * const defaultLogMap = {
  *   test: LogLevel.Info,

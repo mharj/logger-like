@@ -1,8 +1,8 @@
-import type {ILoggerLike} from './ILoggerLike.js';
+import type {ILoggerLike} from './ILoggerLike.mjs';
 
 /**
  * Set logger interface
- * @version 0.1.0
+ * @since v0.1.0
  * @
  */
 export interface ISetLogger {
@@ -11,7 +11,7 @@ export interface ISetLogger {
 
 /**
  * Set logger interface
- * @version 0.1.0
+ * @since v0.1.0
  */
 
 export interface ISetOptionalLogger {

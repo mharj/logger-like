@@ -1,6 +1,6 @@
 /**
  * common logger interface, should work with console, winston and log4js
- * @version 0.0.1
+ * @since v0.0.1
  */
 export interface ILoggerLike {
 	trace?(message: any, ...args: any[]): void;

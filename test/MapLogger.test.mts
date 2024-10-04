@@ -4,8 +4,8 @@
 import 'mocha';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import {type ILoggerLike, LogLevel} from '../src/index.js';
-import {DemoService} from './mockup/DemoMapLogger.js';
+import {type ILoggerLike, LogLevel} from '../src/index.mjs';
+import {DemoService} from './mockup/DemoMapLogger.mjs';
 
 const expect = chai.expect;
 

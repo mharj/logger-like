@@ -1,11 +1,11 @@
-import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.js';
-import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel.js';
-import {type ILoggerLike} from './ILoggerLike.js';
-import {type ISetOptionalLogger} from './ISetLogger.js';
+import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.mjs';
+import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel.mjs';
+import {type ILoggerLike} from './ILoggerLike.mjs';
+import {type ISetOptionalLogger} from './ISetLogger.mjs';
 
 /**
  * logger class implementation which can set log levels
- * @version 0.1.0
+ * @since v0.1.0
  */
 export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLevel, ISetOptionalLogger {
 	private _logger: ILoggerLike | undefined;

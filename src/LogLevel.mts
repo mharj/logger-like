@@ -1,6 +1,6 @@
 /**
  * log level const "enum"
- * @version 0.1.0
+ * @since v0.1.0
  */
 export const LogLevel = {
 	None: 0,
@@ -15,7 +15,7 @@ export type LogLevelKey = keyof typeof LogLevel;
 
 /**
  * log level value type
- * @version 0.1.0
+ * @since v0.1.0
  *
  * @example
  * LogLevel.None = 0
@@ -32,7 +32,7 @@ const LogLevelKeys = Object.keys(LogLevel) as readonly LogLevelKey[];
 
 /**
  * get log level name from log level numeric value
- * @version 0.1.0
+ * @since v0.1.0
  */
 export function getLogLevelName(level: LogLevelValue): LogLevelKey {
 	const key = LogLevelKeys.find((k) => LogLevel[k] === level);
@@ -44,7 +44,7 @@ export function getLogLevelName(level: LogLevelValue): LogLevelKey {
 
 /**
  * check if value is a valid log level number (helper for JS compatibility)
- * @version 0.1.0
+ * @since v0.1.0
  */
 export function isLogLevel(value: unknown): value is LogLevelValue {
 	return typeof value === 'number' && LogLevelValues.includes(value as LogLevelValue);
@@ -52,7 +52,7 @@ export function isLogLevel(value: unknown): value is LogLevelValue {
 
 /**
  * assert that value is a valid log level number
- * @version 0.1.0
+ * @since v0.1.0
  */
 export function assertLogLevel(value: unknown): asserts value is LogLevelValue {
 	if (!isLogLevel(value)) {

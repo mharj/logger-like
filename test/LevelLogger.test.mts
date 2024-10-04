@@ -4,7 +4,7 @@
 import 'mocha';
 import * as chai from 'chai';
 import * as sinon from 'sinon';
-import {type ILoggerLike, LevelLogger, LogLevel, type LogLevelValue} from '../src/index.js';
+import {type ILoggerLike, LevelLogger, LogLevel, type LogLevelValue} from '../src/index.mjs';
 
 const expect = chai.expect;
 
