@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable no-unused-expressions */
-import 'mocha';
-import * as chai from 'chai';
 import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from '../src/index.mjs';
-
-const expect = chai.expect;
+import {describe, expect, it} from 'vitest';
 
 describe('LogLevel', function () {
 	describe('getLogLevelName', function () {

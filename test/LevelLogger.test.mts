@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable no-unused-expressions */
-import 'mocha';
-import * as chai from 'chai';
 import * as sinon from 'sinon';
+import {beforeEach, describe, expect, it} from 'vitest';
 import {type ILoggerLike, LevelLogger, LogLevel, type LogLevelValue} from '../src/index.mjs';
-
-const expect = chai.expect;
 
 const traceSpy = sinon.spy();
 const infoSpy = sinon.spy();
