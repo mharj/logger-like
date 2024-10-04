@@ -4,11 +4,11 @@
         "rootDir": ".",
     },
     "include": [
-        "test/**/*.ts",
-        "src/**/*.ts"
+        "test/",
+        "src/"
     ],
     "exclude": [
-        "dist/*",
+        "dist/",
         "node_modules/*"
     ],
     "importHelpers": false
