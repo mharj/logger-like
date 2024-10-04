@@ -2,6 +2,10 @@ import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.mjs';
 import {type ILoggerLike} from './ILoggerLike.mjs';
 import {type ISetOptionalLogger} from './ISetLogger.mjs';
 
+/**
+ * LogMapping is a type for log key mapping.
+ * @since v0.1.0
+ */
 export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValue>;
 /**
  * MapLogger is a logger that uses a map to determine the log level for each key.

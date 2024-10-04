@@ -11,6 +11,10 @@ export const LogLevel = {
 	Error: 5,
 } as const;
 
+/**
+ * log level key type
+ * @since v0.1.0
+ */
 export type LogLevelKey = keyof typeof LogLevel;
 
 /**
