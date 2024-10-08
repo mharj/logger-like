@@ -51,47 +51,96 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 	 * trace level logging if current log level is trace or lower
 	 */
 	public trace(message: any, ...args: any[]): void {
-		this.handleLogging(LogLevel.Trace, this._logger?.trace, message, ...args);
+		this.handleWithLevel(LogLevel.Trace, message, ...args);
 	}
 
 	/**
 	 * debug level logging if current log level is debug or lower
 	 */
 	public debug(message: any, ...args: any[]): void {
-		this.handleLogging(LogLevel.Debug, this._logger?.debug, message, ...args);
+		this.handleWithLevel(LogLevel.Debug, message, ...args);
 	}
 
 	/**
 	 * info level logging if current log level is info or lower
 	 */
 	public info(message: any, ...args: any[]): void {
-		this.handleLogging(LogLevel.Info, this._logger?.info, message, ...args);
+		this.handleWithLevel(LogLevel.Info, message, ...args);
 	}
 
 	/**
 	 * warn level logging if current log level is warn or lower
 	 */
 	public warn(message: any, ...args: any[]): void {
-		this.handleLogging(LogLevel.Warn, this._logger?.warn, message, ...args);
+		this.handleWithLevel(LogLevel.Warn, message, ...args);
 	}
 
 	/**
 	 * error level logging if current log level is error or lower
 	 */
 	public error(message: any, ...args: any[]): void {
-		this.handleLogging(LogLevel.Error, this._logger?.error, message, ...args);
+		this.handleWithLevel(LogLevel.Error, message, ...args);
 	}
 
-	/**
-	 * handle logging if current log level is equal or lower than given level and method is defined
-	 */
-	private handleLogging(level: LogLevelValue, method: ((message: any, ...args: any[]) => void) | undefined, message: any, ...args: any[]): void {
-		if (this._level <= level && method) {
-			if (args.length === 0) {
-				method(message);
-			} else {
-				method(message, ...args);
+	private handleWithLevel(level: LogLevelValue, message: any, ...args: any[]): void {
+		if (this._level <= level) {
+			switch (level) {
+				case LogLevel.Trace:
+					this.handleTrace(message, ...args);
+					break;
+				case LogLevel.Debug:
+					this.handleDebug(message, ...args);
+					break;
+				case LogLevel.Info:
+					this.handleInfo(message, ...args);
+					break;
+				case LogLevel.Warn:
+					this.handleWarn(message, ...args);
+					break;
+				case LogLevel.Error:
+					this.HandleError(message, ...args);
+					break;
 			}
+		}
+	}
+
+	private handleTrace(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.trace?.(message);
+		} else {
+			this._logger?.trace?.(message, ...args);
+		}
+	}
+
+	private handleDebug(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.debug(message);
+		} else {
+			this._logger?.debug(message, ...args);
+		}
+	}
+
+	private handleInfo(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.info(message);
+		} else {
+			this._logger?.info(message, ...args);
+		}
+	}
+
+	private handleWarn(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.warn(message);
+		} else {
+			this._logger?.warn(message, ...args);
+		}
+	}
+
+	private HandleError(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.error(message);
+		} else {
+			this._logger?.error(message, ...args);
 		}
 	}
 }

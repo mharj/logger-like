@@ -52,7 +52,6 @@
 			}
 		],
 		"@typescript-eslint/consistent-type-imports": ["warn", {"prefer": "type-imports", "fixStyle": "inline-type-imports"}],
-        "@typescript-eslint/unbound-method": "off",
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-explicit-any": "off"
     }

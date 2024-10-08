@@ -78,35 +78,35 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 	 * ILoggerLike debug(message: any, ...args: any[])
 	 */
 	public debug(message: any, ...args: any[]): void {
-		this.handleLogging(this._logger?.debug, message, ...args);
+		this.handleDebug(message, ...args);
 	}
 
 	/**
 	 * ILoggerLike info(message: any, ...args: any[])
 	 */
 	public info(message: any, ...args: any[]): void {
-		this.handleLogging(this._logger?.info, message, ...args);
+		this.handleInfo(message, ...args);
 	}
 
 	/**
 	 * ILoggerLike warn(message: any, ...args: any[])
 	 */
 	public warn(message: any, ...args: any[]): void {
-		this.handleLogging(this._logger?.warn, message, ...args);
+		this.handleWarn(message, ...args);
 	}
 
 	/**
 	 * ILoggerLike error(message: any, ...args: any[])
 	 */
 	public error(message: any, ...args: any[]): void {
-		this.handleLogging(this._logger?.error, message, ...args);
+		this.HandleError(message, ...args);
 	}
 
 	/**
 	 * ILoggerLike trace?.(message: any, ...args: any[])
 	 */
 	public trace(message: any, ...args: any[]): void {
-		this.handleLogging(this._logger?.trace, message, ...args);
+		this.handleTrace(message, ...args);
 	}
 
 	/**
@@ -122,32 +122,66 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 			throw new Error(`MapLogger: Unknown log key: ${String(key)}`);
 		}
 		assertLogLevel(level);
+		this.handleWithLevel(level, message, ...args);
+	}
+
+	private handleWithLevel(level: LogLevelValue, message: any, ...args: any[]): void {
 		switch (level) {
 			case LogLevel.Trace:
-				this.handleLogging(this._logger.trace, message, ...args);
+				this.handleTrace(message, ...args);
 				break;
 			case LogLevel.Debug:
-				this.handleLogging(this._logger.debug, message, ...args);
+				this.handleDebug(message, ...args);
 				break;
 			case LogLevel.Info:
-				this.handleLogging(this._logger.info, message, ...args);
+				this.handleInfo(message, ...args);
 				break;
 			case LogLevel.Warn:
-				this.handleLogging(this._logger.warn, message, ...args);
+				this.handleWarn(message, ...args);
 				break;
 			case LogLevel.Error:
-				this.handleLogging(this._logger.error, message, ...args);
+				this.HandleError(message, ...args);
 				break;
 		}
 	}
 
-	private handleLogging(method: ((message: any, ...args: any[]) => void) | undefined, message: any, ...args: any[]): void {
-		if (method) {
-			if (args.length === 0) {
-				method(message);
-			} else {
-				method(message, ...args);
-			}
+	private handleTrace(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.trace?.(message);
+		} else {
+			this._logger?.trace?.(message, ...args);
+		}
+	}
+
+	private handleDebug(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.debug(message);
+		} else {
+			this._logger?.debug(message, ...args);
+		}
+	}
+
+	private handleInfo(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.info(message);
+		} else {
+			this._logger?.info(message, ...args);
+		}
+	}
+
+	private handleWarn(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.warn(message);
+		} else {
+			this._logger?.warn(message, ...args);
+		}
+	}
+
+	private HandleError(message: any, ...args: any[]): void {
+		if (args.length === 0) {
+			this._logger?.error(message);
+		} else {
+			this._logger?.error(message, ...args);
 		}
 	}
 }
