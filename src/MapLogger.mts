@@ -1,4 +1,5 @@
 import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.mjs';
+import {BaseLogger} from './BaseLogger.mjs';
 import {type ILoggerLike} from './ILoggerLike.mjs';
 import {type ISetOptionalLogger} from './ISetLogger.mjs';
 
@@ -24,24 +25,18 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  * logger.logKey('test', 'goes to info');
  * logger.logKey('input', 'goes to debug');
  */
-export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLogger, ILoggerLike {
-	private _logger: ILoggerLike | undefined;
+export class MapLogger<LogMapType extends LogMapping> extends BaseLogger implements ISetOptionalLogger, ILoggerLike {
 	private _map: LogMapType;
-	private _defaultMap: LogMapType;
-
-	private _backupMap: LogMapType | undefined;
+	private _defaultMap: Readonly<LogMapType>;
+	private _backupMap: Readonly<LogMapType> | undefined;
 
 	/**
 	 * Logger constructor with optional logger instance and log key mapping
 	 */
 	constructor(logger: ILoggerLike | undefined, defaultMap: LogMapType) {
-		this._logger = logger;
+		super(logger);
 		this._defaultMap = defaultMap;
 		this._map = Object.assign({}, this._defaultMap);
-	}
-
-	public setLogger(logger: ILoggerLike | undefined): void {
-		this._logger = logger;
 	}
 
 	/**
@@ -75,41 +70,6 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 	}
 
 	/**
-	 * ILoggerLike debug(message: any, ...args: any[])
-	 */
-	public debug(message: any, ...args: any[]): void {
-		this.handleDebug(message, ...args);
-	}
-
-	/**
-	 * ILoggerLike info(message: any, ...args: any[])
-	 */
-	public info(message: any, ...args: any[]): void {
-		this.handleInfo(message, ...args);
-	}
-
-	/**
-	 * ILoggerLike warn(message: any, ...args: any[])
-	 */
-	public warn(message: any, ...args: any[]): void {
-		this.handleWarn(message, ...args);
-	}
-
-	/**
-	 * ILoggerLike error(message: any, ...args: any[])
-	 */
-	public error(message: any, ...args: any[]): void {
-		this.HandleError(message, ...args);
-	}
-
-	/**
-	 * ILoggerLike trace?.(message: any, ...args: any[])
-	 */
-	public trace(message: any, ...args: any[]): void {
-		this.handleTrace(message, ...args);
-	}
-
-	/**
 	 * Log message with level based on log key mapping
 	 */
 	public logKey(key: keyof LogMapType, message: any, ...args: any[]): void {
@@ -122,10 +82,10 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 			throw new Error(`MapLogger: Unknown log key: ${String(key)}`);
 		}
 		assertLogLevel(level);
-		this.handleWithLevel(level, message, ...args);
+		this.handleLogCall(level, message, ...args);
 	}
 
-	private handleWithLevel(level: LogLevelValue, message: any, ...args: any[]): void {
+	protected handleLogCall(level: LogLevelValue, message: any, ...args: any[]): void {
 		switch (level) {
 			case LogLevel.Trace:
 				this.handleTrace(message, ...args);
@@ -145,43 +105,7 @@ export class MapLogger<LogMapType extends LogMapping> implements ISetOptionalLog
 		}
 	}
 
-	private handleTrace(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.trace?.(message);
-		} else {
-			this._logger?.trace?.(message, ...args);
-		}
-	}
-
-	private handleDebug(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.debug(message);
-		} else {
-			this._logger?.debug(message, ...args);
-		}
-	}
-
-	private handleInfo(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.info(message);
-		} else {
-			this._logger?.info(message, ...args);
-		}
-	}
-
-	private handleWarn(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.warn(message);
-		} else {
-			this._logger?.warn(message, ...args);
-		}
-	}
-
-	private HandleError(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.error(message);
-		} else {
-			this._logger?.error(message, ...args);
-		}
+	public toString(): string {
+		return `MapLogger(logger: ${this._logger ? 'true' : 'false'}, ${JSON.stringify(this._map)})`;
 	}
 }

@@ -1,5 +1,6 @@
-import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.mjs';
+import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from './LogLevel.mjs';
 import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel.mjs';
+import {BaseLogger} from './BaseLogger.mjs';
 import {type ILoggerLike} from './ILoggerLike.mjs';
 import {type ISetOptionalLogger} from './ISetLogger.mjs';
 
@@ -7,25 +8,24 @@ import {type ISetOptionalLogger} from './ISetLogger.mjs';
  * logger class implementation which can set log levels
  * @since v0.1.0
  */
-export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLevel, ISetOptionalLogger {
-	private _logger: ILoggerLike | undefined;
+export class LevelLogger extends BaseLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLevel, ISetOptionalLogger {
 	private _level: LogLevelValue;
+	private _originalLevel: LogLevelValue;
 
 	/**
 	 * Logger constructor with logger and initial log level
 	 */
 	constructor(logger: ILoggerLike | undefined, level: LogLevelValue = LogLevel.Debug) {
-		this._logger = logger;
+		super(logger);
 		assertLogLevel(level);
 		this._level = level;
-	}
-
-	public setLogger(logger: ILoggerLike | undefined): void {
-		this._logger = logger;
+		this._originalLevel = level;
 	}
 
 	/**
-	 * Set current log level
+	 * Set current log level or reset to original level
+	 * @param level - log level to set, if not provided, reset to original level
+	 * @returns current log level
 	 * @example
 	 * LogLevel.Trace = 0
 	 * LogLevel.Debug = 1
@@ -33,11 +33,14 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 	 * LogLevel.Warn = 3
 	 * LogLevel.Error = 4
 	 */
-	public setLoggerLevel(level?: LogLevelValue) {
+	public setLoggerLevel(level?: LogLevelValue): LogLevelValue {
 		if (level) {
 			assertLogLevel(level);
+			this._level = level;
+		} else {
+			this._level = this._originalLevel;
 		}
-		this._level = level !== undefined ? level : LogLevel.Debug;
+		return this._level;
 	}
 
 	/**
@@ -47,42 +50,7 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 		return this._level;
 	}
 
-	/**
-	 * trace level logging if current log level is trace or lower
-	 */
-	public trace(message: any, ...args: any[]): void {
-		this.handleWithLevel(LogLevel.Trace, message, ...args);
-	}
-
-	/**
-	 * debug level logging if current log level is debug or lower
-	 */
-	public debug(message: any, ...args: any[]): void {
-		this.handleWithLevel(LogLevel.Debug, message, ...args);
-	}
-
-	/**
-	 * info level logging if current log level is info or lower
-	 */
-	public info(message: any, ...args: any[]): void {
-		this.handleWithLevel(LogLevel.Info, message, ...args);
-	}
-
-	/**
-	 * warn level logging if current log level is warn or lower
-	 */
-	public warn(message: any, ...args: any[]): void {
-		this.handleWithLevel(LogLevel.Warn, message, ...args);
-	}
-
-	/**
-	 * error level logging if current log level is error or lower
-	 */
-	public error(message: any, ...args: any[]): void {
-		this.handleWithLevel(LogLevel.Error, message, ...args);
-	}
-
-	private handleWithLevel(level: LogLevelValue, message: any, ...args: any[]): void {
+	protected handleLogCall(level: LogLevelValue, message: any, ...args: any[]): void {
 		if (this._level <= level) {
 			switch (level) {
 				case LogLevel.Trace:
@@ -104,43 +72,7 @@ export class LevelLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLeve
 		}
 	}
 
-	private handleTrace(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.trace?.(message);
-		} else {
-			this._logger?.trace?.(message, ...args);
-		}
-	}
-
-	private handleDebug(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.debug(message);
-		} else {
-			this._logger?.debug(message, ...args);
-		}
-	}
-
-	private handleInfo(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.info(message);
-		} else {
-			this._logger?.info(message, ...args);
-		}
-	}
-
-	private handleWarn(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.warn(message);
-		} else {
-			this._logger?.warn(message, ...args);
-		}
-	}
-
-	private HandleError(message: any, ...args: any[]): void {
-		if (args.length === 0) {
-			this._logger?.error(message);
-		} else {
-			this._logger?.error(message, ...args);
-		}
+	public toString(): string {
+		return `LevelLogger(logger: ${this._logger ? 'true' : 'false'}, level: ${getLogLevelName(this._level)})`;
 	}
 }

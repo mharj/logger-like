@@ -47,6 +47,7 @@ describe('LevelLogger', function () {
 		expect(errorSpy.called).to.be.eq(true);
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Trace);
 		expect(debugSpy.firstCall.args.length).to.be.equal(2);
+		expect(logger.toString()).to.be.eq('LevelLogger(logger: true, level: Trace)');
 	});
 	it('should be default = debug', function () {
 		logger.setLoggerLevel();

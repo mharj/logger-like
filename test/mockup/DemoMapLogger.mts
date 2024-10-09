@@ -51,4 +51,8 @@ export class DemoService implements ISetOptionalLogger {
 		this.logger.warn('testAll', 'demo');
 		this.logger.error('testAll', 'demo');
 	}
+
+	public toString() {
+		return this.logger.toString();
+	}
 }
