@@ -1,7 +1,7 @@
 import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.mjs';
 import {BaseLogger} from './BaseLogger.mjs';
 import {type ILoggerLike} from './ILoggerLike.mjs';
-import {type ISetOptionalLogger} from './ISetLogger.mjs';
+import {type ISetLogMapping} from './ISetLogMapping.mjs';
 
 /**
  * LogMapping is a type for log key mapping.
@@ -25,7 +25,7 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  * logger.logKey('test', 'goes to info');
  * logger.logKey('input', 'goes to debug');
  */
-export class MapLogger<LogMapType extends LogMapping> extends BaseLogger implements ISetOptionalLogger, ILoggerLike {
+export class MapLogger<LogMapType extends LogMapping> extends BaseLogger implements ISetLogMapping<LogMapType>, ILoggerLike {
 	private _map: LogMapType;
 	private _defaultMap: Readonly<LogMapType>;
 	private _backupMap: Readonly<LogMapType> | undefined;
