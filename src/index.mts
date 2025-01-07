@@ -5,3 +5,4 @@ export * from './LevelLogger.mjs';
 export * from './MapLogger.mjs';
 export * from './ISetLogger.mjs';
 export * from './ISetLogMapping.mjs';
+export * from './PrefixLogger.mjs';
