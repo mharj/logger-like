@@ -18,7 +18,6 @@ export class PrefixLogger extends BaseLogger {
 	}
 
 	protected handleLogCall(level: LogLevelValue, message: any, ...args: any[]): void {
-		console.log('handleLogCall', level, this._prefix, message, args);
 		switch (level) {
 			case LogLevel.Trace:
 				this.handleTrace(this._prefix, message, ...args);
