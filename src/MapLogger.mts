@@ -22,22 +22,22 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  * @since v0.2.10
  */
 export type LogMapInfer<T extends Record<string, LogLevelValue> = Record<string, LogLevelValue>> = Record<keyof T, LogLevelValue>;
+
 /**
- * MapLogger is a logger that uses a map to determine the log level for each key.
- *
- * This can be extends to create a mapped logger for class or have a variable.
- * See [DemoMapLogger](../test/mockup/DemoMapLogger.ts) for class example.
- * @since v0.1.0
+ * [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html) is a logger that extends normal logger and uses a object key mapping to determine the log level for each unique key.
+ * It allows for dynamic log level configuration for different log keys.
  * @example
  * const defaultLogMap = {
  *   test: LogLevel.Info,
  *   input: LogLevel.Debug,
  * } as const;
- * export type LogMappingType = LogMapInfer<typeof defaultLogMap>; // build type
+ * export type LogMappingType = LogMapInfer<typeof defaultLogMap>; // build type from default
  *
  * const logger = new MapLogger<LogMappingType>(console, defaultLogMap);
  * logger.logKey('test', 'goes to info');
  * logger.logKey('input', 'goes to debug');
+ * @since v0.1.0
+ * @see [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html)
  */
 export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 	extends BaseLogger

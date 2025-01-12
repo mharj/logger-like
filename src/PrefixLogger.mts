@@ -3,12 +3,13 @@ import {type IHasLoggerInstance, type ISetOptionalLogger, type ILoggerLike} from
 import {LogLevel, type LogLevelValue} from './types/index.mjs';
 
 /**
- * PrefixLogger is a logger that add prefix to each log message.
+ * [PrefixLogger](https://mharj.github.io/logger-like/classes/PrefixLogger.html) is a logger that add prefix to each log message.
  * @example
  * const logger = new PrefixLogger('ServiceXyz:', console);
  * logger.info('is running');
  * // output: ServiceXyz: is running
  * @since v0.2.8
+ * @see [PrefixLogger](https://mharj.github.io/logger-like/classes/PrefixLogger.html)
  */
 export class PrefixLogger extends BaseLogger implements ISetOptionalLogger, IHasLoggerInstance, ILoggerLike {
 	private _prefix: string;

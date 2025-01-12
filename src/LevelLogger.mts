@@ -3,8 +3,14 @@ import {type ISetOptionalLogger, type ILoggerLike, type IGetLoggerLevel, type IS
 import {type LogLevelValue, LogLevel, assertLogLevel, getLogLevelName} from './types/index.mjs';
 
 /**
- * logger class implementation which can set log levels
+ * [LevelLogger](https://mharj.github.io/logger-like/classes/LevelLogger.html) is a class implementation which can set minimum log levels.
+ * @example
+ * const logger = new LevelLogger(console, LogLevel.Info);
+ * logger.debug('hello'); // will not be logged
+ * logger.setLogLevel(LogLevel.Warn); // set minimum log level to warn
+ * logger.getLogLevel(); // returns 4 = LogLevel.Warn
  * @since v0.1.0
+ * @see [LevelLogger](https://mharj.github.io/logger-like/classes/LevelLogger.html)
  */
 export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasLoggerInstance, ILoggerLike, IGetLoggerLevel, ISetLoggerLevel {
 	private _level: LogLevelValue;

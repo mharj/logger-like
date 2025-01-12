@@ -1,6 +1,7 @@
 /**
- * log level const "enum"
+ * [LogLevel](https://mharj.github.io/logger-like/variables/LogLevel.html) const "enum"
  * @since v0.1.0
+ * @see [LogLevel](https://mharj.github.io/logger-like/variables/LogLevel.html)
  */
 export const LogLevel = {
 	None: 0,
