@@ -1,13 +1,27 @@
-import {assertLogLevel, LogLevel, type LogLevelValue} from './LogLevel.mjs';
 import {BaseLogger} from './BaseLogger.mjs';
-import {type ILoggerLike} from './ILoggerLike.mjs';
-import {type ISetLogMapping} from './ISetLogMapping.mjs';
+import {
+	type IMappingLogKey,
+	type IResetAllLogMapping,
+	type ISetAllLogMapping,
+	type ISetLogMapping,
+	type ILoggerLike,
+	type IHasLoggerInstance,
+	type ISetOptionalLogger,
+} from './interfaces/index.mjs';
+import {assertLogLevel, LogLevel, type LogLevelValue} from './types/index.mjs';
 
 /**
  * LogMapping is a type for log key mapping.
  * @since v0.1.0
+ * @deprecated Use ```LogMapInfer<type defaultLogMap>``` instead.
  */
 export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValue>;
+
+/**
+ * LogMapInfer is a type for inferring log key mapping.
+ * @since v0.2.10
+ */
+export type LogMapInfer<T extends Record<string, LogLevelValue> = Record<string, LogLevelValue>> = Record<keyof T, LogLevelValue>;
 /**
  * MapLogger is a logger that uses a map to determine the log level for each key.
  *
@@ -18,14 +32,17 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  * const defaultLogMap = {
  *   test: LogLevel.Info,
  *   input: LogLevel.Debug,
- * };
- * export type LogMappingType = LogMapping<keyof typeof defaultLogMap>; // build type
+ * } as const;
+ * export type LogMappingType = LogMapInfer<typeof defaultLogMap>; // build type
  *
- * const logger = new MapLogger(console, defaultLogMap);
+ * const logger = new MapLogger<LogMappingType>(console, defaultLogMap);
  * logger.logKey('test', 'goes to info');
  * logger.logKey('input', 'goes to debug');
  */
-export class MapLogger<LogMapType extends LogMapping> extends BaseLogger implements ISetLogMapping<LogMapType>, ILoggerLike {
+export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
+	extends BaseLogger
+	implements ISetLogMapping<LogMapType>, IMappingLogKey<LogMapType>, ISetAllLogMapping, IResetAllLogMapping, ISetOptionalLogger, IHasLoggerInstance, ILoggerLike
+{
 	private _map: LogMapType;
 	private _defaultMap: Readonly<LogMapType>;
 	private _backupMap: Readonly<LogMapType> | undefined;
@@ -42,7 +59,7 @@ export class MapLogger<LogMapType extends LogMapping> extends BaseLogger impleme
 	/**
 	 * Set new log key mapping
 	 */
-	public setLogMapping(map: Partial<LogMapType>): void {
+	public setLogMapping(map: Partial<LogMapInfer<LogMapType>>): void {
 		this._map = Object.assign({}, this._defaultMap, map);
 	}
 
@@ -105,7 +122,7 @@ export class MapLogger<LogMapType extends LogMapping> extends BaseLogger impleme
 		}
 	}
 
-	public toString(): string {
-		return `MapLogger(logger: ${this._logger ? 'true' : 'false'}, ${JSON.stringify(this._map)})`;
+	public toString(): `MapLogger(${string})` {
+		return `MapLogger(logger: ${this.hasLoggerInstance().toString()}, ${JSON.stringify(this._map)})`;
 	}
 }

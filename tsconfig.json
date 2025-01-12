@@ -29,7 +29,8 @@
 		"**/*.spec.ts",
 		"test"
 	],
-	"ts-node": {
-		"esm": true
+	"typedocOptions": {
+		"entryPoints": ["src/index.mts"],
+		"out": "docs"
 	}
 }

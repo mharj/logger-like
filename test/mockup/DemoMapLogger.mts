@@ -1,12 +1,12 @@
-import {type ILoggerLike, type ISetOptionalLogger, LogLevel, type LogLevelValue, type LogMapping, MapLogger} from '../../src/index.mjs';
+import {type ILoggerLike, type ISetOptionalLogger, LogLevel, type LogLevelValue, type LogMapInfer, MapLogger} from '../../src/index.mjs';
 
 const defaultLogMap = {
 	test: LogLevel.Info,
 	input: LogLevel.Debug,
-};
+} as const;
 
 // build type for DemoService log key mapping
-export type DemoServiceLogMappingType = LogMapping<keyof typeof defaultLogMap>;
+export type DemoServiceLogMappingType = LogMapInfer<typeof defaultLogMap>;
 
 export class DemoService implements ISetOptionalLogger {
 	private logger: MapLogger<DemoServiceLogMappingType>;

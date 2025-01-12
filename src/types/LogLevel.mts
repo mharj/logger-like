@@ -31,8 +31,8 @@ export type LogLevelKey = keyof typeof LogLevel;
  */
 export type LogLevelValue = (typeof LogLevel)[LogLevelKey];
 
-const LogLevelValues = Object.values(LogLevel) as readonly LogLevelValue[];
-const LogLevelKeys = Object.keys(LogLevel) as readonly LogLevelKey[];
+export const LogLevelValues = Object.values(LogLevel) as readonly LogLevelValue[];
+export const LogLevelKeys = Object.keys(LogLevel) as readonly LogLevelKey[];
 
 /**
  * get log level name from log level numeric value

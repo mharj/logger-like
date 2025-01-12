@@ -1,8 +1,7 @@
-import {LogLevel, type LogLevelValue} from './LogLevel.mjs';
-import {type ILoggerLike} from './ILoggerLike.mjs';
-import {type ISetOptionalLogger} from './ISetLogger.mjs';
+import {type IHasLoggerInstance, type ILoggerLike, type ISetOptionalLogger} from './interfaces/index.mjs';
+import {LogLevel, type LogLevelValue} from './types/index.mjs';
 
-export abstract class BaseLogger implements ISetOptionalLogger, ILoggerLike {
+export abstract class BaseLogger implements ISetOptionalLogger, IHasLoggerInstance, ILoggerLike {
 	protected _logger: ILoggerLike | undefined;
 
 	constructor(logger: ILoggerLike | undefined) {
@@ -50,6 +49,10 @@ export abstract class BaseLogger implements ISetOptionalLogger, ILoggerLike {
 	 */
 	public error(message: any, ...args: any[]): void {
 		this.handleLogCall(LogLevel.Error, message, ...args);
+	}
+
+	public hasLoggerInstance(): boolean {
+		return !!this._logger;
 	}
 
 	protected handleTrace(message: any, ...args: any[]): void {

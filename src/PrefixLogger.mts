@@ -1,6 +1,6 @@
-import {LogLevel, type LogLevelValue} from './LogLevel.mjs';
 import {BaseLogger} from './BaseLogger.mjs';
-import {type ILoggerLike} from './ILoggerLike.mjs';
+import {type IHasLoggerInstance, type ISetOptionalLogger, type ILoggerLike} from './interfaces/index.mjs';
+import {LogLevel, type LogLevelValue} from './types/index.mjs';
 
 /**
  * PrefixLogger is a logger that add prefix to each log message.
@@ -10,7 +10,7 @@ import {type ILoggerLike} from './ILoggerLike.mjs';
  * // output: ServiceXyz: is running
  * @since v0.2.8
  */
-export class PrefixLogger extends BaseLogger {
+export class PrefixLogger extends BaseLogger implements ISetOptionalLogger, IHasLoggerInstance, ILoggerLike {
 	private _prefix: string;
 	constructor(prefix: string, logger?: ILoggerLike) {
 		super(logger);
@@ -35,5 +35,13 @@ export class PrefixLogger extends BaseLogger {
 				this.HandleError(this._prefix, message, ...args);
 				break;
 		}
+	}
+
+	/**
+	 * Get string representation of the logger.
+	 * @returns string representation of the logger, e.g. `PrefixLogger(prefix: foo, logger: true)`
+	 */
+	public toString(): `PrefixLogger(${string})` {
+		return `PrefixLogger(logger: ${this.hasLoggerInstance().toString()}, prefix: '${this._prefix}')`;
 	}
 }

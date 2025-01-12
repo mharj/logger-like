@@ -1,14 +1,12 @@
-import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from './LogLevel.mjs';
-import {type IGetLoggerLevel, type ISetLoggerLevel} from './ILoggerLevel.mjs';
 import {BaseLogger} from './BaseLogger.mjs';
-import {type ILoggerLike} from './ILoggerLike.mjs';
-import {type ISetOptionalLogger} from './ISetLogger.mjs';
+import {type ISetOptionalLogger, type ILoggerLike, type IGetLoggerLevel, type ISetLoggerLevel, type IHasLoggerInstance} from './interfaces/index.mjs';
+import {type LogLevelValue, LogLevel, assertLogLevel, getLogLevelName} from './types/index.mjs';
 
 /**
  * logger class implementation which can set log levels
  * @since v0.1.0
  */
-export class LevelLogger extends BaseLogger implements ILoggerLike, IGetLoggerLevel, ISetLoggerLevel, ISetOptionalLogger {
+export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasLoggerInstance, ILoggerLike, IGetLoggerLevel, ISetLoggerLevel {
 	private _level: LogLevelValue;
 	private _originalLevel: LogLevelValue;
 
@@ -72,7 +70,7 @@ export class LevelLogger extends BaseLogger implements ILoggerLike, IGetLoggerLe
 		}
 	}
 
-	public toString(): string {
-		return `LevelLogger(logger: ${this._logger ? 'true' : 'false'}, level: ${getLogLevelName(this._level)})`;
+	public toString(): `LevelLogger(${string})` {
+		return `LevelLogger(logger: ${this.hasLoggerInstance().toString()}, level: ${getLogLevelName(this._level)})`;
 	}
 }

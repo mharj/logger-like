@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable no-unused-expressions */
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 import {beforeEach, describe, expect, it} from 'vitest';
 import {type ILoggerLike, PrefixLogger} from '../src/index.mjs';
 
@@ -47,5 +44,9 @@ describe('PrefixLogger', function () {
 		serviceLogger.error('error');
 		expect(loggerSpy.called).to.be.eq(true);
 		expect(loggerSpy.firstCall.args).to.be.eql(['service:', 'error']);
+	});
+	it('should get toString()', function () {
+		const serviceLogger = new PrefixLogger('service:', logger);
+		expect(serviceLogger.toString()).to.be.eq(`PrefixLogger(logger: true, prefix: 'service:')`);
 	});
 });

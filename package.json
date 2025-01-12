@@ -25,30 +25,6 @@
     "dist"
   ],
   "repository": "github:mharj/logger-like",
-  "mocha": {
-    "exit": true,
-    "extension": [
-      "mts",
-      "js"
-    ],
-    "recursive": true,
-    "enable-source-maps": true,
-    "require": [
-      "ts-node/register"
-    ],
-    "loader": "ts-node/esm",
-    "reporters": [
-      "spec",
-      "mocha-junit-reporter"
-    ]
-  },
-  "nyc": {
-    "check-coverage": true,
-    "extension": [
-      ".mts",
-      ".js"
-    ]
-  },
   "keywords": [
     "logger"
   ],
@@ -58,7 +34,7 @@
     "@stylistic/eslint-plugin": "^2.12.1",
     "@stylistic/eslint-plugin-ts": "^2.12.1",
     "@tsconfig/node18": "^18.2.4",
-    "@types/node": "^20.17.12",
+    "@types/node": "^22.10.5",
     "@types/sinon": "^17.0.3",
     "@typescript-eslint/eslint-plugin": "^8.19.1",
     "@typescript-eslint/parser": "^8.19.1",
@@ -68,7 +44,9 @@
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
     "eslint-config-standard": "^17.1.0",
+    "eslint-import-resolver-typescript": "^3.7.0",
     "eslint-plugin-deprecation": "^3.0.0",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-sonarjs": "^0.19.0",
     "prettier": "^3.4.2",
@@ -77,8 +55,9 @@
     "ts-node": "^10.9.2",
     "tslib": "^2.8.1",
     "tsup": "^8.3.5",
-    "typescript": "^5.7.2",
+    "typescript": "^5.7.3",
     "vite": "^6.0.7",
     "vitest": "^2.1.8"
-  }
+  },
+  "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a"
 }

@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable no-unused-expressions */
-import * as sinon from 'sinon';
+import sinon from 'sinon';
 import {beforeEach, describe, expect, it} from 'vitest';
 import {type ILoggerLike, LogLevel} from '../src/index.mjs';
 import {DemoService} from './mockup/DemoMapLogger.mjs';

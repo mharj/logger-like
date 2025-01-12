@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-confusing-void-expression */
-/* eslint-disable sonarjs/no-duplicate-string */
-/* eslint-disable no-unused-expressions */
-import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from '../src/index.mjs';
 import {describe, expect, it} from 'vitest';
+import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from '../src/index.mjs';
 
 describe('LogLevel', function () {
 	describe('getLogLevelName', function () {

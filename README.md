@@ -7,7 +7,7 @@
 
 This package contains:
 
-- A common [**ILoggerLike**](./src/ILoggerLike.ts) logger interface that works with console, winston, and log4js.
+- A common [**ILoggerLike**](./src/interfaces/ILoggerLike.ts) logger interface that works with console, winston, and log4js.
 - A [**LevelLogger**](#class-levellogger) logger class implementation that can set log levels and acts as filter for the actual logger implementation.
 - A [**ISetLogger** **ISetOptionalLogger**](./src/ISetLogger.ts) interfaces that provides a method to set the logger.
 - A [**MapLogger**](./src/MapLogger.ts), logger class implementation that can be used to map log levels to different log keys. (works also as extended)

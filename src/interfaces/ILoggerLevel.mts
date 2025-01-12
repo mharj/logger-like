@@ -1,4 +1,4 @@
-import type {LogLevelValue} from './LogLevel.mjs';
+import type {LogLevelValue} from '../types/index.mjs';
 
 /**
  * Set log level interface
