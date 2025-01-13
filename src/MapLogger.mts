@@ -1,11 +1,12 @@
 import {BaseLogger} from './BaseLogger.mjs';
 import {
+	type IGetLogMapping,
+	type IHasLoggerInstance,
+	type ILoggerLike,
 	type IMappingLogKey,
 	type IResetAllLogMapping,
 	type ISetAllLogMapping,
 	type ISetLogMapping,
-	type ILoggerLike,
-	type IHasLoggerInstance,
 	type ISetOptionalLogger,
 } from './interfaces/index.mjs';
 import {assertLogLevel, LogLevel, type LogLevelValue} from './types/index.mjs';
@@ -22,6 +23,12 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
  * @since v0.2.10
  */
 export type LogMapInfer<T extends Record<string, LogLevelValue> = Record<string, LogLevelValue>> = Record<keyof T, LogLevelValue>;
+
+/**
+ * MapLoggerToJson is a JSON output type for [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html).
+ * @since v0.2.11
+ */
+export type MapLoggerToJson<LogMapType extends Record<string, LogLevelValue>> = {$class: 'MapLogger'; map: LogMapType; logger: boolean};
 
 /**
  * [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html) is a logger that extends normal logger and uses a object key mapping to determine the log level for each unique key.
@@ -41,19 +48,29 @@ export type LogMapInfer<T extends Record<string, LogLevelValue> = Record<string,
  */
 export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 	extends BaseLogger
-	implements ISetLogMapping<LogMapType>, IMappingLogKey<LogMapType>, ISetAllLogMapping, IResetAllLogMapping, ISetOptionalLogger, IHasLoggerInstance, ILoggerLike
+	implements
+		IGetLogMapping<LogMapType>,
+		ISetLogMapping<LogMapType>,
+		IMappingLogKey<LogMapType>,
+		ISetAllLogMapping,
+		IResetAllLogMapping,
+		ISetOptionalLogger,
+		IHasLoggerInstance,
+		ILoggerLike
 {
 	private _map: LogMapType;
 	private _defaultMap: Readonly<LogMapType>;
-	private _backupMap: Readonly<LogMapType> | undefined;
 
 	/**
-	 * Logger constructor with optional logger instance and log key mapping
+	 * [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html) constructor with optional logger instance and default log key mapping.
+	 * @param {ILoggerLike | undefined} logger - optional logger instance
+	 * @param {LogMapType} defaultMap - default log key mapping
+	 * @see [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html)
 	 */
 	constructor(logger: ILoggerLike | undefined, defaultMap: LogMapType) {
 		super(logger);
-		this._defaultMap = defaultMap;
-		this._map = Object.assign({}, this._defaultMap);
+		this._defaultMap = Object.assign({}, defaultMap);
+		this._map = Object.assign({}, defaultMap);
 	}
 
 	/**
@@ -64,13 +81,16 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 	}
 
 	/**
+	 * Get current log key mapping
+	 */
+	public getLogMapping(): LogMapType {
+		return this._map;
+	}
+
+	/**
 	 * Set temporary log key mapping to all keys.
 	 */
 	public allLogMapSet(level: LogLevelValue) {
-		if (this._backupMap) {
-			throw new Error('allLogMapSet: backupMap is already set, call allLogMapReset first');
-		}
-		this._backupMap = Object.assign({}, this._map);
 		for (const key in this._map) {
 			this._map[key] = level as LogMapType[Extract<keyof LogMapType, string>];
 		}
@@ -80,10 +100,7 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 	 * Reset temporary log key mapping to original.
 	 */
 	public allLogMapReset() {
-		if (this._backupMap) {
-			this._map = Object.assign({}, this._backupMap);
-			this._backupMap = undefined;
-		}
+		this._map = Object.assign({}, this._defaultMap);
 	}
 
 	/**
@@ -124,5 +141,13 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 
 	public toString(): `MapLogger(${string})` {
 		return `MapLogger(logger: ${this.hasLoggerInstance().toString()}, ${JSON.stringify(this._map)})`;
+	}
+
+	public toJSON(): MapLoggerToJson<LogMapType> {
+		return {
+			$class: 'MapLogger',
+			map: this.getLogMapping(),
+			logger: !!this._logger,
+		};
 	}
 }

@@ -11,6 +11,14 @@ export interface ISetLogMapping<LogMapType extends Record<string, LogLevelValue>
 }
 
 /**
+ * SetLogMapping is an interface for getting log key mapping.
+ * @since v0.2.11
+ */
+export interface IGetLogMapping<LogMapType extends Record<string, LogLevelValue>> extends ISetOptionalLogger {
+	getLogMapping(map: Partial<LogMapInfer<LogMapType>>): void;
+}
+
+/**
  * ISetAllLogMapping is an interface for setting log key mapping to all keys.
  * @since v0.2.10
  */

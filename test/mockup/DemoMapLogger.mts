@@ -9,7 +9,7 @@ const defaultLogMap = {
 export type DemoServiceLogMappingType = LogMapInfer<typeof defaultLogMap>;
 
 export class DemoService implements ISetOptionalLogger {
-	private logger: MapLogger<DemoServiceLogMappingType>;
+	public logger: MapLogger<DemoServiceLogMappingType>;
 	constructor(logger?: ILoggerLike, logMapping?: Partial<DemoServiceLogMappingType>) {
 		this.logger = new MapLogger(logger, Object.assign({}, defaultLogMap, logMapping));
 	}
@@ -54,5 +54,9 @@ export class DemoService implements ISetOptionalLogger {
 
 	public toString() {
 		return this.logger.toString();
+	}
+
+	public toJSON() {
+		return this.logger.toJSON();
 	}
 }

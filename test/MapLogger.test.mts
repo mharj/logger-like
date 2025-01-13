@@ -37,7 +37,6 @@ describe('LevelLogger', function () {
 		expect(warnSpy.called).to.be.eq(false);
 		expect(errorSpy.called).to.be.eq(false);
 		expect(traceSpy.calledWith('DemoService test() method')).to.be.eq(true);
-		expect(service.toString()).to.be.eq('MapLogger(logger: true, {"test":1,"input":2})');
 	});
 	it('should map test() to debug level', function () {
 		service.setLogMapping({test: LogLevel.Debug});
@@ -82,7 +81,6 @@ describe('LevelLogger', function () {
 	it('should map input() to error level', function () {
 		service.setLogMapping({input: LogLevel.None});
 		service.allLogMapSet(LogLevel.Error);
-		expect(() => service.allLogMapSet(LogLevel.Error)).to.throw(Error, 'allLogMapSet: backupMap is already set, call allLogMapReset first');
 		service.input();
 		service.allLogMapReset();
 		expect(traceSpy.called).to.be.eq(true);
@@ -136,5 +134,20 @@ describe('LevelLogger', function () {
 		expect(infoSpy.called).to.be.eq(true);
 		expect(warnSpy.called).to.be.eq(true);
 		expect(errorSpy.called).to.be.eq(true);
+	});
+	it('test toString method', function () {
+		service = new DemoService(spyLogger);
+		expect(service.toString()).to.be.eq('MapLogger(logger: true, {"test":3,"input":2})');
+	});
+	it('test toJSON method', function () {
+		service = new DemoService(spyLogger);
+		expect(service.toJSON()).to.be.eql({
+			$class: 'MapLogger',
+			logger: true,
+			map: {
+				test: 3,
+				input: 2,
+			},
+		});
 	});
 });

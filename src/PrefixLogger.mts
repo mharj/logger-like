@@ -1,6 +1,12 @@
 import {BaseLogger} from './BaseLogger.mjs';
-import {type IHasLoggerInstance, type ISetOptionalLogger, type ILoggerLike} from './interfaces/index.mjs';
+import {type IHasLoggerInstance, type ILoggerLike, type ISetOptionalLogger} from './interfaces/index.mjs';
 import {LogLevel, type LogLevelValue} from './types/index.mjs';
+
+/**
+ * PrefixLoggerToJson is a JSON output type for [PrefixLogger](https://mharj.github.io/logger-like/classes/PrefixLogger.html).
+ * @since v0.2.11
+ */
+export type PrefixLoggerToJson = {$class: 'PrefixLogger'; prefix: string; logger: boolean};
 
 /**
  * [PrefixLogger](https://mharj.github.io/logger-like/classes/PrefixLogger.html) is a logger that add prefix to each log message.
@@ -13,6 +19,13 @@ import {LogLevel, type LogLevelValue} from './types/index.mjs';
  */
 export class PrefixLogger extends BaseLogger implements ISetOptionalLogger, IHasLoggerInstance, ILoggerLike {
 	private _prefix: string;
+
+	/**
+	 * [PrefixLogger](https://mharj.github.io/logger-like/classes/PrefixLogger.html) constructor with optional logger instance and prefix.
+	 * @param {string} prefix - prefix that will be added to each log message
+	 * @param {ILoggerLike | undefined} logger - optional logger instance
+	 * @see [PrefixLogger](https://mharj.github.io/logger-like/classes/PrefixLogger.html)
+	 */
 	constructor(prefix: string, logger?: ILoggerLike) {
 		super(logger);
 		this._prefix = prefix;
@@ -44,5 +57,13 @@ export class PrefixLogger extends BaseLogger implements ISetOptionalLogger, IHas
 	 */
 	public toString(): `PrefixLogger(${string})` {
 		return `PrefixLogger(logger: ${this.hasLoggerInstance().toString()}, prefix: '${this._prefix}')`;
+	}
+
+	public toJSON(): PrefixLoggerToJson {
+		return {
+			$class: 'PrefixLogger',
+			prefix: this._prefix,
+			logger: !!this._logger,
+		};
 	}
 }

@@ -29,6 +29,7 @@
 					"order": "asc",
 					"caseInsensitive": true
 				},
+				"named": true,
 				"newlines-between": "never"
 			}
 		],

@@ -49,4 +49,12 @@ describe('PrefixLogger', function () {
 		const serviceLogger = new PrefixLogger('service:', logger);
 		expect(serviceLogger.toString()).to.be.eq(`PrefixLogger(logger: true, prefix: 'service:')`);
 	});
+	it('should get toString()', function () {
+		const serviceLogger = new PrefixLogger('service:', logger);
+		expect(serviceLogger.toJSON()).to.be.eql({
+			$class: 'PrefixLogger',
+			prefix: 'service:',
+			logger: true,
+		});
+	});
 });

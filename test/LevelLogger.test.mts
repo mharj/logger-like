@@ -44,7 +44,6 @@ describe('LevelLogger', function () {
 		expect(errorSpy.called).to.be.eq(true);
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Trace);
 		expect(debugSpy.firstCall.args.length).to.be.equal(2);
-		expect(logger.toString()).to.be.eq('LevelLogger(logger: true, level: Trace)');
 	});
 	it('should be default = debug', function () {
 		logger.setLoggerLevel();
@@ -97,5 +96,19 @@ describe('LevelLogger', function () {
 		expect(infoSpy.called).to.be.eq(false);
 		expect(warnSpy.called).to.be.eq(false);
 		expect(errorSpy.called).to.be.eq(false);
+	});
+	it('should get toString()', function () {
+		logger.setLogger(spyLogger);
+		logger.setLoggerLevel(LogLevel.Debug);
+		expect(logger.toString()).to.be.eq('LevelLogger(logger: true, level: Debug)');
+	});
+	it('should get toJSON()', function () {
+		logger.setLogger(spyLogger);
+		logger.setLoggerLevel(LogLevel.Debug);
+		expect(logger.toJSON()).to.be.eql({
+			$class: 'LevelLogger',
+			logger: true,
+			level: LogLevel.Debug,
+		});
 	});
 });

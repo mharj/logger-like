@@ -1,6 +1,12 @@
 import {BaseLogger} from './BaseLogger.mjs';
-import {type ISetOptionalLogger, type ILoggerLike, type IGetLoggerLevel, type ISetLoggerLevel, type IHasLoggerInstance} from './interfaces/index.mjs';
-import {type LogLevelValue, LogLevel, assertLogLevel, getLogLevelName} from './types/index.mjs';
+import {type IGetLoggerLevel, type IHasLoggerInstance, type ILoggerLike, type ISetLoggerLevel, type ISetOptionalLogger} from './interfaces/index.mjs';
+import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from './types/index.mjs';
+
+/**
+ * LevelLoggerToJson is a JSON output type for [LevelLogger](https://mharj.github.io/logger-like/classes/LevelLogger.html)
+ * @since v0.2.11
+ */
+export type LevelLoggerToJson = {$class: 'LevelLogger'; level: LogLevelValue; logger: boolean};
 
 /**
  * [LevelLogger](https://mharj.github.io/logger-like/classes/LevelLogger.html) is a class implementation which can set minimum log levels.
@@ -17,7 +23,10 @@ export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasL
 	private _originalLevel: LogLevelValue;
 
 	/**
-	 * Logger constructor with logger and initial log level
+	 * [LevelLogger](https://mharj.github.io/logger-like/classes/LevelLogger.html) constructor with logger and initial log level
+	 * @param {ILoggerLike | undefined} logger - optional logger instance
+	 * @param {LogLevelValue} level - initial log level
+	 * @see [LevelLogger](https://mharj.github.io/logger-like/classes/LevelLogger.html)
 	 */
 	constructor(logger: ILoggerLike | undefined, level: LogLevelValue = LogLevel.Debug) {
 		super(logger);
@@ -78,5 +87,13 @@ export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasL
 
 	public toString(): `LevelLogger(${string})` {
 		return `LevelLogger(logger: ${this.hasLoggerInstance().toString()}, level: ${getLogLevelName(this._level)})`;
+	}
+
+	public toJSON(): LevelLoggerToJson {
+		return {
+			$class: 'LevelLogger',
+			level: this._level,
+			logger: !!this._logger,
+		};
 	}
 }
