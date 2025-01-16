@@ -31,6 +31,22 @@ export class PrefixLogger extends BaseLogger implements ISetOptionalLogger, IHas
 		this._prefix = prefix;
 	}
 
+	/**
+	 * Get string representation of the logger.
+	 * @returns string representation of the logger, e.g. `PrefixLogger(logger: true, prefix: foo)`
+	 */
+	public toString(): `PrefixLogger(${string})` {
+		return `PrefixLogger(logger: ${this.hasLoggerInstance().toString()}, prefix: '${this._prefix}')`;
+	}
+
+	public toJSON(): PrefixLoggerToJson {
+		return {
+			$class: 'PrefixLogger',
+			prefix: this._prefix,
+			logger: !!this._logger,
+		};
+	}
+
 	protected handleLogCall(level: LogLevelValue, message: any, ...args: any[]): void {
 		switch (level) {
 			case LogLevel.Trace:
@@ -49,21 +65,5 @@ export class PrefixLogger extends BaseLogger implements ISetOptionalLogger, IHas
 				this.HandleError(this._prefix, message, ...args);
 				break;
 		}
-	}
-
-	/**
-	 * Get string representation of the logger.
-	 * @returns string representation of the logger, e.g. `PrefixLogger(prefix: foo, logger: true)`
-	 */
-	public toString(): `PrefixLogger(${string})` {
-		return `PrefixLogger(logger: ${this.hasLoggerInstance().toString()}, prefix: '${this._prefix}')`;
-	}
-
-	public toJSON(): PrefixLoggerToJson {
-		return {
-			$class: 'PrefixLogger',
-			prefix: this._prefix,
-			logger: !!this._logger,
-		};
 	}
 }

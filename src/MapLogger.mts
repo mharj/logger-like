@@ -119,6 +119,26 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 		this.handleLogCall(level, message, ...args);
 	}
 
+	/**
+	 * Get string representation of the logger.
+	 * @returns string representation of the logger, e.g. `MapLogger(logger: true, map: { foo: 2, bar: 3 })`
+	 */
+	public toString(): `MapLogger(${string})` {
+		return `MapLogger(logger: ${this.hasLoggerInstance().toString()}, ${JSON.stringify(this._map)})`;
+	}
+
+	/**
+	 * Convert the object to a JSON-like representation.
+	 * @returns An object with the class name, logger status, and the log mapping object.
+	 */
+	public toJSON(): MapLoggerToJson<LogMapType> {
+		return {
+			$class: 'MapLogger',
+			map: this.getLogMapping(),
+			logger: !!this._logger,
+		};
+	}
+
 	protected handleLogCall(level: LogLevelValue, message: any, ...args: any[]): void {
 		switch (level) {
 			case LogLevel.Trace:
@@ -137,17 +157,5 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 				this.HandleError(message, ...args);
 				break;
 		}
-	}
-
-	public toString(): `MapLogger(${string})` {
-		return `MapLogger(logger: ${this.hasLoggerInstance().toString()}, ${JSON.stringify(this._map)})`;
-	}
-
-	public toJSON(): MapLoggerToJson<LogMapType> {
-		return {
-			$class: 'MapLogger',
-			map: this.getLogMapping(),
-			logger: !!this._logger,
-		};
 	}
 }

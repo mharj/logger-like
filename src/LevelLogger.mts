@@ -63,6 +63,18 @@ export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasL
 		return this._level;
 	}
 
+	public toString(): `LevelLogger(${string})` {
+		return `LevelLogger(logger: ${this.hasLoggerInstance().toString()}, level: ${getLogLevelName(this._level)})`;
+	}
+
+	public toJSON(): LevelLoggerToJson {
+		return {
+			$class: 'LevelLogger',
+			level: this._level,
+			logger: !!this._logger,
+		};
+	}
+
 	protected handleLogCall(level: LogLevelValue, message: any, ...args: any[]): void {
 		if (this._level <= level) {
 			switch (level) {
@@ -83,17 +95,5 @@ export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasL
 					break;
 			}
 		}
-	}
-
-	public toString(): `LevelLogger(${string})` {
-		return `LevelLogger(logger: ${this.hasLoggerInstance().toString()}, level: ${getLogLevelName(this._level)})`;
-	}
-
-	public toJSON(): LevelLoggerToJson {
-		return {
-			$class: 'LevelLogger',
-			level: this._level,
-			logger: !!this._logger,
-		};
 	}
 }
