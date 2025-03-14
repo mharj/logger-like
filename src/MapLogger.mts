@@ -111,7 +111,6 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 			return;
 		}
 		const level = this._map[key];
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (level === undefined) {
 			throw new Error(`MapLogger: Unknown log key: ${String(key)}`);
 		}
