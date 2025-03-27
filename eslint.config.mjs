@@ -119,6 +119,38 @@ export default tseslint.config(
 					],
 				},
 			],
+			'@typescript-eslint/naming-convention': [
+                'warn',
+                {
+                    selector: ['variable', 'parameter'],
+                    modifiers: ['destructured'],
+                    format: null,
+                },
+                {
+                    selector: 'variable',
+                    modifiers: ['const'],
+                    format: ['camelCase', 'PascalCase'],
+                },
+                {
+                    selector: 'variableLike',
+                    format: ['camelCase', 'PascalCase'],
+                    leadingUnderscore: 'allow',
+                    filter: {
+                        // you can expand with "|" this regex to add more allowed names
+                        regex: '^(__DEV__)$',
+                        match: false,
+                    },
+                },
+                {
+                    selector: 'typeAlias',
+                    format: ['PascalCase'],
+                },
+                {
+                    selector: 'interface',
+                    prefix: ['I'],
+                    format: ['PascalCase'],
+                },
+            ],
 			'@typescript-eslint/consistent-type-definitions': 'off',
 			'@typescript-eslint/no-unsafe-return': 'off',
 			'@typescript-eslint/no-misused-promises': 'off',
