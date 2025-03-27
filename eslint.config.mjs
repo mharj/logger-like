@@ -6,6 +6,7 @@ import prettierRecommended from 'eslint-plugin-prettier/recommended';
 import sonarjs from 'eslint-plugin-sonarjs';
 import tsParser from '@typescript-eslint/parser';
 import cspellESLintPluginRecommended from '@cspell/eslint-plugin/recommended';
+import jsdoc from 'eslint-plugin-jsdoc';
 
 /**
  * install
@@ -21,6 +22,7 @@ export default tseslint.config(
 	importPlugin.flatConfigs.typescript,
 	sonarjs.configs.recommended,
 	cspellESLintPluginRecommended,
+	jsdoc.configs['flat/recommended-typescript'],
 	prettierRecommended,
 	{
 		ignores: ['**/dist', '**/node_modules', '**/.github', '**/.nyc_output', '**/vite.config.mts', 'eslint.config.mjs'],
@@ -122,13 +124,36 @@ export default tseslint.config(
 			'@typescript-eslint/no-misused-promises': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-unsafe-argument': 'off',
+			'@typescript-eslint/explicit-member-accessibility': 'warn',
 			'sonarjs/different-types-comparison': 'off',
+			'jsdoc/no-types': 'off',
+			'jsdoc/require-param-type': 'warn',
+			'jsdoc/require-param': 'warn',
+			'jsdoc/require-template': 'warn',
+			'jsdoc/require-throws': 'warn',
+			'jsdoc/require-returns': 'warn',
+			'jsdoc/require-returns-type': 'warn',
+			'jsdoc/check-values': 'error',
+			'jsdoc/check-types': 'error',
+			'jsdoc/no-restricted-syntax': [
+				'warn',
+				{
+					contexts: [
+						{
+							comment: 'JsdocBlock:not(*:has(JsdocTag[tag=since]))',
+							context: 'ExportNamedDeclaration',
+							message: '@since required on each block',
+						},
+					],
+				},
+			],
 		},
 	},
 	{
 		files: ['**/*.test.mts'],
 		rules: {
 			'import/no-named-as-default-member': 'off',
+			'jsdoc/require-jsdoc': 'off',
 		},
 	},
 );

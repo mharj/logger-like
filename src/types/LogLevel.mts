@@ -21,7 +21,6 @@ export type LogLevelKey = keyof typeof LogLevel;
 /**
  * log level value type
  * @since v0.1.0
- *
  * @example
  * LogLevel.None = 0
  * LogLevel.Trace = 1
@@ -36,7 +35,10 @@ export const LogLevelValues = Object.values(LogLevel) as readonly LogLevelValue[
 export const LogLevelKeys = Object.keys(LogLevel) as readonly LogLevelKey[];
 
 /**
- * get log level name from log level numeric value
+ * Get log level name from log level numeric value
+ * @param {LogLevelValue} level - log level number
+ * @returns {LogLevelKey} log level key
+ * @throws {TypeError} if log level is invalid
  * @since v0.1.0
  */
 export function getLogLevelName(level: LogLevelValue): LogLevelKey {
@@ -49,6 +51,8 @@ export function getLogLevelName(level: LogLevelValue): LogLevelKey {
 
 /**
  * check if value is a valid log level number (helper for JS compatibility)
+ * @param {unknown} value - value to check
+ * @returns {boolean} true if value is a valid log level number
  * @since v0.1.0
  */
 export function isLogLevel(value: unknown): value is LogLevelValue {
@@ -57,6 +61,8 @@ export function isLogLevel(value: unknown): value is LogLevelValue {
 
 /**
  * assert that value is a valid log level number
+ * @param {unknown} value - value to check
+ * @throws {TypeError} if value is not a valid log level number
  * @since v0.1.0
  */
 export function assertLogLevel(value: unknown): asserts value is LogLevelValue {

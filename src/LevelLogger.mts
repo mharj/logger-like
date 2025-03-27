@@ -28,7 +28,7 @@ export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasL
 	 * @param {LogLevelValue} level - initial log level
 	 * @see [LevelLogger](https://mharj.github.io/logger-like/classes/LevelLogger.html)
 	 */
-	constructor(logger: ILoggerLike | undefined, level: LogLevelValue = LogLevel.Debug) {
+	public constructor(logger: ILoggerLike | undefined, level: LogLevelValue = LogLevel.Debug) {
 		super(logger);
 		assertLogLevel(level);
 		this._level = level;
@@ -37,8 +37,8 @@ export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasL
 
 	/**
 	 * Set current log level or reset to original level
-	 * @param level - log level to set, if not provided, reset to original level
-	 * @returns current log level
+	 * @param {LogLevelValue | undefined} level - log level to set, if not provided, reset to original level
+	 * @returns {LogLevelValue} current log level
 	 * @example
 	 * LogLevel.Trace = 0
 	 * LogLevel.Debug = 1
@@ -58,15 +58,28 @@ export class LevelLogger extends BaseLogger implements ISetOptionalLogger, IHasL
 
 	/**
 	 * Get current log level
+	 * @returns {LogLevelValue} current log level
 	 */
 	public getLoggerLevel(): LogLevelValue {
 		return this._level;
 	}
 
+	/**
+	 * Get string representation of the logger.
+	 * @returns {string} String representation of the logger, e.g. `LevelLogger(logger: true, level: 'Info')`
+	 */
 	public toString(): `LevelLogger(${string})` {
 		return `LevelLogger(logger: ${this.hasLoggerInstance().toString()}, level: ${getLogLevelName(this._level)})`;
 	}
 
+	/**
+	 * Get JSON representation of the logger.
+	 * @returns {LevelLoggerToJson} JSON representation of the logger
+	 * @example
+	 * const logger = new LevelLogger(console, LogLevel.Info);
+	 * console.log(logger.toJSON());
+	 * // output: {"$class":"LevelLogger","level":2,"logger":true}
+	 */
 	public toJSON(): LevelLoggerToJson {
 		return {
 			$class: 'LevelLogger',

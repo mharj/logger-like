@@ -26,19 +26,27 @@ export class PrefixLogger extends BaseLogger implements ISetOptionalLogger, IHas
 	 * @param {ILoggerLike | undefined} logger - optional logger instance
 	 * @see [PrefixLogger](https://mharj.github.io/logger-like/classes/PrefixLogger.html)
 	 */
-	constructor(prefix: string, logger?: ILoggerLike) {
+	public constructor(prefix: string, logger?: ILoggerLike) {
 		super(logger);
 		this._prefix = prefix;
 	}
 
 	/**
 	 * Get string representation of the logger.
-	 * @returns string representation of the logger, e.g. `PrefixLogger(logger: true, prefix: foo)`
+	 * @returns {string} String representation of the logger, e.g. `PrefixLogger(logger: true, prefix: foo)`
 	 */
 	public toString(): `PrefixLogger(${string})` {
 		return `PrefixLogger(logger: ${this.hasLoggerInstance().toString()}, prefix: '${this._prefix}')`;
 	}
 
+	/**
+	 * Get JSON representation of the logger.
+	 * @returns {PrefixLoggerToJson} JSON representation of the logger
+	 * @example
+	 * const logger = new PrefixLogger('ServiceXyz:', console);
+	 * console.log(logger.toJSON());
+	 * // output: {"$class":"PrefixLogger","prefix":"ServiceXyz:","logger":true}
+	 */
 	public toJSON(): PrefixLoggerToJson {
 		return {
 			$class: 'PrefixLogger',

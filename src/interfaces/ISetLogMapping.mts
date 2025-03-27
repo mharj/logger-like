@@ -4,6 +4,7 @@ import {type ISetOptionalLogger} from './ISetLogger.mjs';
 
 /**
  * SetLogMapping is an interface for setting log key mapping.
+ * @template LogMapType Object type with LogLevelValue values.
  * @since v0.2.6
  */
 export interface ISetLogMapping<LogMapType extends Record<string, LogLevelValue>> extends ISetOptionalLogger {
@@ -12,6 +13,7 @@ export interface ISetLogMapping<LogMapType extends Record<string, LogLevelValue>
 
 /**
  * SetLogMapping is an interface for getting log key mapping.
+ * @template LogMapType Object type with LogLevelValue values.
  * @since v0.2.11
  */
 export interface IGetLogMapping<LogMapType extends Record<string, LogLevelValue>> extends ISetOptionalLogger {
@@ -36,6 +38,7 @@ export interface IResetAllLogMapping {
 
 /**
  * Interface for logging with mapping key.
+ * @template LogMapType Object type with LogLevelValue values.
  * @since v0.2.10
  */
 export interface IMappingLogKey<LogMapType extends Record<string, LogLevelValue>> {

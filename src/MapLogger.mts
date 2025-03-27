@@ -13,6 +13,7 @@ import {assertLogLevel, LogLevel, type LogLevelValue} from './types/index.mjs';
 
 /**
  * LogMapping is a type for log key mapping.
+ * @template Keys log key type
  * @since v0.1.0
  * @deprecated Use ```LogMapInfer<type defaultLogMap>``` instead.
  */
@@ -20,12 +21,14 @@ export type LogMapping<Keys extends string = string> = Record<Keys, LogLevelValu
 
 /**
  * LogMapInfer is a type for inferring log key mapping.
+ * @template T Object type with LogLevelValue values
  * @since v0.2.10
  */
 export type LogMapInfer<T extends Record<string, LogLevelValue> = Record<string, LogLevelValue>> = Record<keyof T, LogLevelValue>;
 
 /**
  * MapLoggerToJson is a JSON output type for [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html).
+ * @template LogMapType Object type with LogLevelValue values
  * @since v0.2.11
  */
 export type MapLoggerToJson<LogMapType extends Record<string, LogLevelValue>> = {$class: 'MapLogger'; map: LogMapType; logger: boolean};
@@ -33,6 +36,7 @@ export type MapLoggerToJson<LogMapType extends Record<string, LogLevelValue>> = 
 /**
  * [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html) is a logger that extends normal logger and uses a object key mapping to determine the log level for each unique key.
  * It allows for dynamic log level configuration for different log keys.
+ * @template LogMapType Object type with LogLevelValue values
  * @example
  * const defaultLogMap = {
  *   test: LogLevel.Info,
@@ -67,7 +71,7 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 	 * @param {LogMapType} defaultMap - default log key mapping
 	 * @see [MapLogger](https://mharj.github.io/logger-like/classes/MapLogger.html)
 	 */
-	constructor(logger: ILoggerLike | undefined, defaultMap: LogMapType) {
+	public constructor(logger: ILoggerLike | undefined, defaultMap: LogMapType) {
 		super(logger);
 		this._defaultMap = Object.assign({}, defaultMap);
 		this._map = Object.assign({}, defaultMap);
@@ -75,6 +79,7 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 
 	/**
 	 * Set new log key mapping
+	 * @param {Partial<LogMapInfer<LogMapType>>} map - new log key mapping
 	 */
 	public setLogMapping(map: Partial<LogMapInfer<LogMapType>>): void {
 		this._map = Object.assign({}, this._defaultMap, map);
@@ -82,6 +87,7 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 
 	/**
 	 * Get current log key mapping
+	 * @returns {LogMapType} current log key mapping
 	 */
 	public getLogMapping(): LogMapType {
 		return this._map;
@@ -89,6 +95,7 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 
 	/**
 	 * Set temporary log key mapping to all keys.
+	 * @param {LogLevelValue} level - log level
 	 */
 	public allLogMapSet(level: LogLevelValue) {
 		for (const key in this._map) {
@@ -105,6 +112,10 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 
 	/**
 	 * Log message with level based on log key mapping
+	 * @param {keyof LogMapType} key - log key
+	 * @param {any} message - message to log
+	 * @param {any[]} args - additional arguments
+	 * @throws {Error} if log key is not found
 	 */
 	public logKey(key: keyof LogMapType, message: any, ...args: any[]): void {
 		if (!this._logger) {
@@ -120,15 +131,19 @@ export class MapLogger<LogMapType extends Record<string, LogLevelValue>>
 
 	/**
 	 * Get string representation of the logger.
-	 * @returns string representation of the logger, e.g. `MapLogger(logger: true, map: { foo: 2, bar: 3 })`
+	 * @returns {string} String representation of the logger, e.g. `MapLogger(logger: true, map: { foo: 2, bar: 3 })`
 	 */
 	public toString(): `MapLogger(${string})` {
 		return `MapLogger(logger: ${this.hasLoggerInstance().toString()}, ${JSON.stringify(this._map)})`;
 	}
 
 	/**
-	 * Convert the object to a JSON-like representation.
-	 * @returns An object with the class name, logger status, and the log mapping object.
+	 * Get JSON representation of the logger.
+	 * @returns {MapLoggerToJson<LogMapType>} An object with the class name, logger status, and the log mapping object.
+	 * @example
+	 * const logger = new MapLogger<LogMappingType>(console, defaultLogMap);
+	 * console.log(logger.toJSON());
+	 * // output: {"$class":"MapLogger","map":{"foo":2,"bar":3},"logger":true}
 	 */
 	public toJSON(): MapLoggerToJson<LogMapType> {
 		return {

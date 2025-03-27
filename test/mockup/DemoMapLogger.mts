@@ -10,7 +10,7 @@ export type DemoServiceLogMappingType = LogMapInfer<typeof defaultLogMap>;
 
 export class DemoService implements ISetOptionalLogger {
 	public logger: MapLogger<DemoServiceLogMappingType>;
-	constructor(logger?: ILoggerLike, logMapping?: Partial<DemoServiceLogMappingType>) {
+	public constructor(logger?: ILoggerLike, logMapping?: Partial<DemoServiceLogMappingType>) {
 		this.logger = new MapLogger(logger, Object.assign({}, defaultLogMap, logMapping));
 	}
 
