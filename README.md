@@ -2,8 +2,9 @@
 
 [![TypeScript](https://badges.frapsoft.com/typescript/code/typescript.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 [![npm version](https://badge.fury.io/js/@avanio%2Flogger-like.svg)](https://badge.fury.io/js/@avanio%2Flogger-like)
-[![Maintainability](https://api.codeclimate.com/v1/badges/879b79714b63f852a07d/maintainability)](https://codeclimate.com/github/mharj/logger-like/maintainability)
-![github action](https://github.com/mharj/logger-like/actions/workflows/main.yml/badge.svg?branch=main)
+[![Maintainability](https://qlty.sh/gh/mharj/projects/logger-like/maintainability.svg)](https://qlty.sh/gh/mharj/projects/logger-like)
+[![Code Coverage](https://qlty.sh/gh/mharj/projects/logger-like/coverage.svg)](https://qlty.sh/gh/mharj/projects/logger-like)
+[![CICD](https://github.com/mharj/logger-like/actions/workflows/main.yml/badge.svg)](https://github.com/mharj/logger-like/actions/workflows/main.yml)
 
 ## Overview
 
