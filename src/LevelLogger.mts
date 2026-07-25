@@ -1,5 +1,5 @@
 import {BaseLogger} from './BaseLogger.mjs';
-import {type IGetLoggerLevel, type IHasLoggerInstance, type ILoggerLike, type ISetLoggerLevel, type ISetOptionalLogger} from './interfaces/index.mjs';
+import type {IGetLoggerLevel, IHasLoggerInstance, ILoggerLike, ISetLoggerLevel, ISetOptionalLogger} from './interfaces/index.mjs';
 import {assertLogLevel, getLogLevelName, LogLevel, type LogLevelValue} from './types/index.mjs';
 
 /**

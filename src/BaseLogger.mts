@@ -1,4 +1,4 @@
-import {type IHasLoggerInstance, type ILoggerLike, type ISetOptionalLogger} from './interfaces/index.mjs';
+import type {IHasLoggerInstance, ILoggerLike, ISetOptionalLogger} from './interfaces/index.mjs';
 import {LogLevel, type LogLevelValue} from './types/index.mjs';
 
 export abstract class BaseLogger implements ISetOptionalLogger, IHasLoggerInstance, ILoggerLike {

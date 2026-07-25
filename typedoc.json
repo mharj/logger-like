@@ -1,5 +1,8 @@
 {
-    "$schema": "https://typedoc.org/schema.json",
-    "entryPoints": ["./src/index.mts"],
-    "out": "docs"
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.mts"],
+  "out": "docs",
+  "name": "@avanio/logger-like",
+  "plugin": ["typedoc-plugin-dt-links", "typedoc-plugin-mdn-links"],
+  "readme": "README.md"
 }

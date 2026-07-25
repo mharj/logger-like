@@ -1,13 +1,13 @@
 import {BaseLogger} from './BaseLogger.mjs';
-import {
-	type IGetLogMapping,
-	type IHasLoggerInstance,
-	type ILoggerLike,
-	type IMappingLogKey,
-	type IResetAllLogMapping,
-	type ISetAllLogMapping,
-	type ISetLogMapping,
-	type ISetOptionalLogger,
+import type {
+	IGetLogMapping,
+	IHasLoggerInstance,
+	ILoggerLike,
+	IMappingLogKey,
+	IResetAllLogMapping,
+	ISetAllLogMapping,
+	ISetLogMapping,
+	ISetOptionalLogger,
 } from './interfaces/index.mjs';
 import {assertLogLevel, LogLevel, type LogLevelValue} from './types/index.mjs';
 

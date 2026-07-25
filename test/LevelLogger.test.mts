@@ -1,12 +1,11 @@
-import sinon from 'sinon';
-import {beforeEach, describe, expect, it} from 'vitest';
+import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {type ILoggerLike, LevelLogger, LogLevel, type LogLevelValue} from '../src/index.mjs';
 
-const traceSpy = sinon.spy();
-const infoSpy = sinon.spy();
-const warnSpy = sinon.spy();
-const errorSpy = sinon.spy();
-const debugSpy = sinon.spy();
+const traceSpy = vi.fn();
+const infoSpy = vi.fn();
+const warnSpy = vi.fn();
+const errorSpy = vi.fn();
+const debugSpy = vi.fn();
 
 const spyLogger: ILoggerLike = {
 	debug: debugSpy,
@@ -28,61 +27,61 @@ function setToAll(message: string, ...args: any[]) {
 
 describe('LevelLogger', function () {
 	beforeEach(function () {
-		traceSpy.resetHistory();
-		infoSpy.resetHistory();
-		warnSpy.resetHistory();
-		errorSpy.resetHistory();
-		debugSpy.resetHistory();
+		traceSpy.mockClear();
+		infoSpy.mockClear();
+		warnSpy.mockClear();
+		errorSpy.mockClear();
+		debugSpy.mockClear();
 	});
 	it('should be trace level', function () {
 		logger.setLoggerLevel(LogLevel.Trace);
 		setToAll('demo', 'test');
-		expect(traceSpy.called).to.be.eq(true);
-		expect(debugSpy.called).to.be.eq(true);
-		expect(infoSpy.called).to.be.eq(true);
-		expect(warnSpy.called).to.be.eq(true);
-		expect(errorSpy.called).to.be.eq(true);
+		expect(traceSpy).toHaveBeenCalled();
+		expect(debugSpy).toHaveBeenCalled();
+		expect(infoSpy).toHaveBeenCalled();
+		expect(warnSpy).toHaveBeenCalled();
+		expect(errorSpy).toHaveBeenCalled();
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Trace);
-		expect(debugSpy.firstCall.args.length).to.be.equal(2);
+		expect(debugSpy.mock.calls[0]?.length).to.be.equal(2);
 	});
 	it('should be default = debug', function () {
 		logger.setLoggerLevel();
 		setToAll('demo');
-		expect(traceSpy.called).to.be.eq(false);
-		expect(debugSpy.called).to.be.eq(true);
-		expect(infoSpy.called).to.be.eq(true);
-		expect(warnSpy.called).to.be.eq(true);
-		expect(errorSpy.called).to.be.eq(true);
+		expect(traceSpy).not.toHaveBeenCalled();
+		expect(debugSpy).toHaveBeenCalled();
+		expect(infoSpy).toHaveBeenCalled();
+		expect(warnSpy).toHaveBeenCalled();
+		expect(errorSpy).toHaveBeenCalled();
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Debug);
 	});
 	it('should be info level', function () {
 		logger.setLoggerLevel(LogLevel.Info);
 		setToAll('demo');
-		expect(traceSpy.called).to.be.eq(false);
-		expect(debugSpy.called).to.be.eq(false);
-		expect(infoSpy.called).to.be.eq(true);
-		expect(warnSpy.called).to.be.eq(true);
-		expect(errorSpy.called).to.be.eq(true);
+		expect(traceSpy).not.toHaveBeenCalled();
+		expect(debugSpy).not.toHaveBeenCalled();
+		expect(infoSpy).toHaveBeenCalled();
+		expect(warnSpy).toHaveBeenCalled();
+		expect(errorSpy).toHaveBeenCalled();
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Info);
 	});
 	it('should be warn level', function () {
 		logger.setLoggerLevel(LogLevel.Warn);
 		setToAll('demo');
-		expect(traceSpy.called).to.be.eq(false);
-		expect(debugSpy.called).to.be.eq(false);
-		expect(infoSpy.called).to.be.eq(false);
-		expect(warnSpy.called).to.be.eq(true);
-		expect(errorSpy.called).to.be.eq(true);
+		expect(traceSpy).not.toHaveBeenCalled();
+		expect(debugSpy).not.toHaveBeenCalled();
+		expect(infoSpy).not.toHaveBeenCalled();
+		expect(warnSpy).toHaveBeenCalled();
+		expect(errorSpy).toHaveBeenCalled();
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Warn);
 	});
 	it('should be error level', function () {
 		logger.setLoggerLevel(LogLevel.Error);
 		setToAll('demo');
-		expect(traceSpy.called).to.be.eq(false);
-		expect(debugSpy.called).to.be.eq(false);
-		expect(infoSpy.called).to.be.eq(false);
-		expect(warnSpy.called).to.be.eq(false);
-		expect(errorSpy.called).to.be.eq(true);
+		expect(traceSpy).not.toHaveBeenCalled();
+		expect(debugSpy).not.toHaveBeenCalled();
+		expect(infoSpy).not.toHaveBeenCalled();
+		expect(warnSpy).not.toHaveBeenCalled();
+		expect(errorSpy).toHaveBeenCalled();
 		expect(logger.getLoggerLevel()).to.be.equal(LogLevel.Error);
 	});
 	it('should fail to add wrong initial level to logger', function () {
@@ -91,11 +90,11 @@ describe('LevelLogger', function () {
 	it('should not log with empty logger', function () {
 		logger.setLogger(undefined);
 		setToAll('demo');
-		expect(traceSpy.called).to.be.eq(false);
-		expect(debugSpy.called).to.be.eq(false);
-		expect(infoSpy.called).to.be.eq(false);
-		expect(warnSpy.called).to.be.eq(false);
-		expect(errorSpy.called).to.be.eq(false);
+		expect(traceSpy).not.toHaveBeenCalled();
+		expect(debugSpy).not.toHaveBeenCalled();
+		expect(infoSpy).not.toHaveBeenCalled();
+		expect(warnSpy).not.toHaveBeenCalled();
+		expect(errorSpy).not.toHaveBeenCalled();
 	});
 	it('should get toString()', function () {
 		logger.setLogger(spyLogger);

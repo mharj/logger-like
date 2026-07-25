@@ -1,6 +1,6 @@
-import {type LogMapInfer} from '../MapLogger.mjs';
+import type {LogMapInfer} from '../MapLogger.mjs';
 import type {LogLevelValue} from '../types/index.mjs';
-import {type ISetOptionalLogger} from './ISetLogger.mjs';
+import type {ISetOptionalLogger} from './ISetLogger.mjs';
 
 /**
  * SetLogMapping is an interface for setting log key mapping.
