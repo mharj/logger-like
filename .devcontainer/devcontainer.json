@@ -3,13 +3,7 @@
   "image": "mcr.microsoft.com/devcontainers/typescript-node:5-24-trixie",
   "customizations": {
     "vscode": {
-      "extensions": [
-        "biomejs.biome",
-        "esbenp.prettier-vscode",
-        "github.vscode-github-actions",
-        "TypeScriptTeam.native-preview",
-        "vitest.explorer"
-      ]
+      "extensions": ["biomejs.biome", "esbenp.prettier-vscode", "github.vscode-github-actions", "TypeScriptTeam.native-preview", "vitest.explorer"]
     }
   },
 
